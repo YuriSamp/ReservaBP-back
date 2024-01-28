@@ -3,7 +3,7 @@ import { signInUsers, signUpUsers } from "../controllers/users";
 type ApiRoutes = {
   path: string;
   method: "get" | "post" | "delete";
-  //fix later
+  // we don't care about the action signature
   action: (...args: any) => Promise<void>;
 };
 
