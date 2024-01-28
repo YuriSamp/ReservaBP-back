@@ -14,6 +14,9 @@
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.1.1",
     "@types/eslint": "^8.56.2",
+    "@types/koa-bodyparser": "^4.3.12",
+    "@types/koa-router": "^7.4.8",
+    "@types/koa__cors": "^5.0.0",
     "@types/node": "^20.11.7",
     "@typescript-eslint/eslint-plugin": "^6.19.1",
     "@typescript-eslint/parser": "^6.19.1",
@@ -29,6 +32,8 @@
   },
   "dependencies": {
     "@koa/cors": "^5.0.0",
-    "koa": "^2.15.0"
+    "koa": "^2.15.0",
+    "koa-bodyparser": "^4.4.1",
+    "koa-router": "^12.0.1"
   }
 }
