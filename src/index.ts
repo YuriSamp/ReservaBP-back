@@ -3,6 +3,8 @@ import Koa from "koa";
 import bodyParser from "koa-bodyparser";
 import Router from "koa-router";
 
+import "dotenv/config";
+
 import { apiRoutes } from "./routes/routes";
 
 const app = new Koa();
