@@ -1,11 +1,12 @@
 // this line solve this issue https://github.com/koajs/koa-body/issues/109
 /// <reference path='../../node_modules/@types/koa-bodyparser/index.d.ts' />
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import { Context } from "koa";
 import * as z from "zod";
 
-const JWT_KEY = process.env.JWT_KEY || "";
+import { createJWT } from "../services/createJWT";
+import { hashPassword } from "../services/hashPassword";
+
 const saltRounds = 12;
 
 const signInSchema = z.object({
@@ -36,17 +37,10 @@ export async function signInUsers(context: Context) {
   }
 
   try {
-    // const hash = "aqui entra a requisição pro banco";
-    // const isTheSamePassword = await bcrypt.compare(result.data.password, hash);
+    const hash = hashPassword(result.data.password);
   } catch (error) {}
 
-  const jwtKey = jwt.sign(
-    {
-      data: "foobar",
-    },
-    JWT_KEY,
-    { expiresIn: "1h" }
-  );
+  const jwtKey = createJWT(result.data);
 
   context.status = 200;
   context.body = jwtKey;
@@ -66,8 +60,12 @@ export async function signUpUsers(context: Context) {
     return;
   }
 
-  // const salt = await bcrypt.genSalt(saltRounds);
-  // const hash = await bcrypt.hash(result.data.password, salt);
+  try {
+    const hash = hashPassword(result.data.password);
+  } catch (error) {}
 
-  context.body = "Uma request foi feita para a rota signup";
+  const jwtKey = createJWT(result.data);
+
+  context.status = 200;
+  context.body = jwtKey;
 }
