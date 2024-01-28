@@ -10,14 +10,9 @@ const router = new Router();
 
 apiRoutes.forEach((route) => router[route.method](route.path, route.action));
 
-
-router.get("/", () => {})
-
 app
   .use(bodyParser())
   .use(cors())
   .use(router.routes())
   .use(router.allowedMethods())
-  .listen(3000);
-
-console.log("Koa application is up and running on port 3000");
+  .listen(8000);

@@ -10,12 +10,12 @@ type ApiRoutes = {
 export const apiRoutes: ApiRoutes[] = [
   {
     path: "/signin",
-    method: "get",
+    method: "post",
     action: signInUsers,
   },
   {
     path: "/signup",
-    method: "get",
+    method: "post",
     action: signUpUsers,
   },
 ];
