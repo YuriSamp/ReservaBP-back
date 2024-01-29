@@ -2,7 +2,6 @@ import { Context } from "koa";
 import * as z from "zod";
 
 import { createJWT } from "../services/createJWT";
-import { hashPassword } from "../services/hashPassword";
 
 const signInSchema = z.object({
   email: z.string().email("Invalid mail"),
