@@ -1,5 +1,3 @@
-// this line solve this issue https://github.com/koajs/koa-body/issues/109
-/// <reference path='../../node_modules/@types/koa-bodyparser/index.d.ts' />
 import { Context } from "koa";
 import * as z from "zod";
 
@@ -95,9 +93,6 @@ export async function getAllUser(context: Context) {
     },
   ];
 
-  const token = context.header.authorization;
-
-  console.log(token?.split(" ").at(1));
   context.status = 200;
   context.body = arrayDeObjetos;
 }
