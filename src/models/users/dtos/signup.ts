@@ -18,5 +18,10 @@ export const signUpDto = (userCredentials: unknown) => {
     throw new Error(`Invalid user data: ${validaterUser.error} `);
   }
 
-  return validaterUser.data;
+  const credentials = {
+    email: validaterUser.data.email,
+    password: validaterUser.data.password,
+  };
+
+  return credentials;
 };

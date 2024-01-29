@@ -1,7 +1,15 @@
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Context, Next } from "koa";
 
 import { ErrorMessages } from "../../../utils/errorhandle/error..message";
+
+type payload = {
+  email: string;
+  password: string;
+};
+
+const EXPIRE_DATE = "1h";
 
 export const authenticationMiddleware = (context: Context, next: Next) => {
   const authHeader = context.req.headers.authorization;
@@ -33,4 +41,18 @@ export const authenticationMiddleware = (context: Context, next: Next) => {
   }
 
   throw new Error(ErrorMessages.UNAUTHORIZED);
+};
+
+export const login = async (payload: payload) => {
+  const token = jwt.sign(payload, process.env.JWT_SECRET as string, {
+    expiresIn: EXPIRE_DATE,
+  });
+
+  return token;
+};
+
+const comparePasswords = async (password: string, hashedPassword: string) => {
+  const isPasswordValid = await bcrypt.compare(password, hashedPassword);
+
+  return isPasswordValid;
 };

@@ -1,25 +1,25 @@
+import { login } from "@/models/auth/services/auth";
+import { signInDto } from "@/models/users/dtos/signin";
+import { signUpDto } from "@/models/users/dtos/signup";
+import bcrypt from "bcrypt";
 import { Context } from "koa";
-
-import { createJWT } from "../../../services/createJWT";
-import { signInDto } from "../dtos/signin";
-import { signUpDto } from "../dtos/signup";
 
 export async function signInUsers(context: Context) {
   const userData = signInDto(context.request.body);
 
-  const jwtKey = createJWT(userData);
+  const token = login(userData);
 
   context.status = 200;
-  context.body = jwtKey;
+  context.body = token;
 }
 
 export async function signUpUsers(context: Context) {
-  const result = signUpDto(context.request.body);
+  const userData = signUpDto(context.request.body);
 
-  const jwtKey = createJWT(result);
+  const token = login(userData);
 
   context.status = 200;
-  context.body = jwtKey;
+  context.body = token;
 }
 
 export async function getAllUser(context: Context) {
@@ -64,3 +64,10 @@ export async function getAllUser(context: Context) {
   context.status = 200;
   context.body = arrayDeObjetos;
 }
+
+const hashPassword = async (password: string) => {
+  const saltRounds = 10;
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+  return hashedPassword;
+};
