@@ -1,4 +1,8 @@
-import { getAllUser, signInUsers, signUpUsers } from "../controllers/users";
+import {
+  getAllUser,
+  signInUsers,
+  signUpUsers,
+} from "../models/users/controllers";
 
 type ApiRoutes = {
   path: string;

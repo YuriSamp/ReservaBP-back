@@ -1,57 +1,27 @@
 import { Context } from "koa";
-import * as z from "zod";
 
-import { createJWT } from "../services/createJWT";
-
-const signInSchema = z.object({
-  email: z.string().email("Invalid mail"),
-  password: z.string().min(8, "Password length lower than 8 digits"),
-});
-
-const signUpSchema = z
-  .object({
-    email: z.string().email("Invalid mail"),
-    password: z.string().min(8, "Password length lower than 8 digits"),
-    confirmPassword: z.string().min(8),
-  })
-  .refine((fields) => fields.password === fields.confirmPassword, {
-    message: "Passwords don't match",
-    path: ["confirmPassword"],
-  });
+import { createJWT } from "../../../services/createJWT";
+import { signInDto } from "../dtos/signin";
+import { signUpDto } from "../dtos/signup";
 
 export async function signInUsers(context: Context) {
-  const result = signInSchema.safeParse(context.request.body);
+  const userData = signInDto(context.request.body);
 
-  if (!result.success) {
-    context.status = 401;
-    context.body = {
-      mensage: result.error.issues.at(0)?.message,
-    };
-    return;
-  }
-
-  const jwtKey = createJWT(result.data);
+  const jwtKey = createJWT(userData);
 
   context.status = 200;
   context.body = jwtKey;
 }
 
 export async function signUpUsers(context: Context) {
-  const result = signUpSchema.safeParse(context.request.body);
+  const result = signUpDto(context.request.body);
 
-  if (!result.success) {
-    context.status = 401;
-    context.body = {
-      mensage: result.error.issues.at(0)?.message,
-    };
-    return;
-  }
-
-  const jwtKey = createJWT(result.data);
+  const jwtKey = createJWT(result);
 
   context.status = 200;
   context.body = jwtKey;
 }
+
 
 export async function getAllUser(context: Context) {
   const arrayDeObjetos = [
