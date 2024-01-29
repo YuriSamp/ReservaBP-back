@@ -5,7 +5,7 @@ type payload = {
   password: string;
 };
 
-const JWT_KEY = process.env.JWT_KEY || "";
+const JWT_KEY = process.env.JWT_SECRET || "";
 const EXPIRE_DATE = "1h";
 
 export const createJWT = (payload: payload) => {

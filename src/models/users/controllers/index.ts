@@ -22,7 +22,6 @@ export async function signUpUsers(context: Context) {
   context.body = jwtKey;
 }
 
-
 export async function getAllUser(context: Context) {
   const arrayDeObjetos = [
     {
