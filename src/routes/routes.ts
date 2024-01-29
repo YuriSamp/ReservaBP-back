@@ -1,4 +1,4 @@
-import { signInUsers, signUpUsers } from "../controllers/users";
+import { getAllUser, signInUsers, signUpUsers } from "../controllers/users";
 
 type ApiRoutes = {
   path: string;
@@ -17,5 +17,10 @@ export const apiRoutes: ApiRoutes[] = [
     path: "/signup",
     method: "post",
     action: signUpUsers,
+  },
+  {
+    path: "/users",
+    method: "get",
+    action: getAllUser,
   },
 ];
