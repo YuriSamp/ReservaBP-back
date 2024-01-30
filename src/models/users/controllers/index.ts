@@ -1,28 +1,27 @@
-import { login } from "@/models/auth/services/auth";
+import { authenticationMiddleware, login } from "@/models/auth/services/auth";
 import { signInDto } from "@/models/users/dtos/signin";
 import { signUpDto } from "@/models/users/dtos/signup";
-import bcrypt from "bcrypt";
-import { Context } from "koa";
+import Router from "koa-router";
 
-export async function signInUsers(context: Context) {
+const userRoutes = new Router();
+
+userRoutes.post("/signin", async (context) => {
   const userData = signInDto(context.request.body);
-
-  const token = login(userData);
+  const token = await login(userData);
 
   context.status = 200;
   context.body = token;
-}
+});
 
-export async function signUpUsers(context: Context) {
+userRoutes.post("/signup", authenticationMiddleware, async (context) => {
   const userData = signUpDto(context.request.body);
-
-  const token = login(userData);
+  const token = await login(userData);
 
   context.status = 200;
   context.body = token;
-}
+});
 
-export async function getAllUser(context: Context) {
+userRoutes.get("/users", authenticationMiddleware, async (context) => {
   const arrayDeObjetos = [
     {
       id: 1,
@@ -63,11 +62,6 @@ export async function getAllUser(context: Context) {
 
   context.status = 200;
   context.body = arrayDeObjetos;
-}
+});
 
-const hashPassword = async (password: string) => {
-  const saltRounds = 10;
-  const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-  return hashedPassword;
-};
+export { userRoutes };

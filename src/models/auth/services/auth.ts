@@ -11,7 +11,10 @@ type payload = {
 
 const EXPIRE_DATE = "1h";
 
-export const authenticationMiddleware = (context: Context, next: Next) => {
+export const authenticationMiddleware = async (
+  context: Context,
+  next: Next
+) => {
   const authHeader = context.req.headers.authorization;
 
   if (authHeader) {
@@ -37,7 +40,7 @@ export const authenticationMiddleware = (context: Context, next: Next) => {
   const publicRoutes = ["/signin", "/signup"];
 
   if (publicRoutes.includes(context.request.URL.pathname)) {
-    return true;
+    await next();
   }
 
   throw new Error(ErrorMessages.UNAUTHORIZED);
