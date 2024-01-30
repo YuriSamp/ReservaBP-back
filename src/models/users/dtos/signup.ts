@@ -12,16 +12,7 @@ const signUpSchema = z
   });
 
 export const signUpDto = (userCredentials: unknown) => {
-  const validaterUser = signUpSchema.safeParse(userCredentials);
-
-  if (!validaterUser.success) {
-    throw new Error(`Invalid user data: ${validaterUser.error} `);
-  }
-
-  const credentials = {
-    email: validaterUser.data.email,
-    password: validaterUser.data.password,
-  };
+  const credentials = signUpSchema.parse(userCredentials);
 
   return credentials;
 };

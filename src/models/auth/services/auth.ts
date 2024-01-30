@@ -1,4 +1,4 @@
-import { ErrorMessages } from "@/utils/errorhandle/error..message";
+import { ErrorMessages } from "@/utils/error..message";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Context, Next } from "koa";
