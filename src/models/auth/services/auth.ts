@@ -1,8 +1,7 @@
+import { ErrorMessages } from "@/utils/errorhandle/error..message";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Context, Next } from "koa";
-
-import { ErrorMessages } from "../../../utils/errorhandle/error..message";
 
 type payload = {
   email: string;
