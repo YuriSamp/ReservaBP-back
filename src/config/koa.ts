@@ -1,3 +1,4 @@
+import { schedulingRoutes } from "@/models/scheduling/controllers";
 import { userRoutes } from "@/models/users/controllers";
 import cors from "@koa/cors";
 import Koa from "koa";
@@ -9,7 +10,7 @@ const router = new Router();
 
 app.use(bodyParser()).use(cors()).use(router.routes());
 
-const nestedRoutes = [userRoutes];
+const nestedRoutes = [userRoutes, schedulingRoutes];
 
 for (const routes of nestedRoutes) {
   router.use(routes.routes(), router.allowedMethods());
