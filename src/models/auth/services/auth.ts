@@ -19,7 +19,6 @@ export const authenticationMiddleware = async (
 
   if (authHeader) {
     const token = authHeader.split("Bearer ")[1];
-
     if (token) {
       try {
         const payload = jwt.verify(
@@ -29,8 +28,8 @@ export const authenticationMiddleware = async (
 
         context.userId = payload.id;
         next();
+        return;
       } catch (err) {
-        console.log(err);
         throw new Error(ErrorMessages.UNAUTHORIZED);
       }
     }
