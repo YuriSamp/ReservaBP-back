@@ -4,7 +4,7 @@ export const ErrorMessages = {
   // ALREADY_EXISTS: (entity: string) =>
   //   `${entity} already exists in the database`,
 
-  // CANNOT_CREATE: (entity: string) => `${entity} cannot be created`,
+  CANNOT_CREATE: (entity: string) => `${entity} cannot be created`,
 
   // CANNOT_UPDATE: (entity: string) => `${entity} cannot be updated`,
 

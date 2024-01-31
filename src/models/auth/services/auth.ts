@@ -1,4 +1,4 @@
-import { ErrorMessages } from "@/utils/error..message";
+import { ErrorMessages } from "@/utils/error/error..messages";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Context, Next } from "koa";
@@ -39,6 +39,7 @@ export const authenticationMiddleware = async (
 
   if (publicRoutes.includes(context.request.URL.pathname)) {
     await next();
+    return;
   }
 
   throw new Error(ErrorMessages.UNAUTHORIZED);

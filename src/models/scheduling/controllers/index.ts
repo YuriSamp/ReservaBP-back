@@ -1,9 +1,9 @@
 import { authenticationMiddleware } from "@/models/auth/services/auth";
-import { errorHandler } from "@/utils/errror.handle";
+import { errorHandler } from "@/utils/error/error.handle";
 import Router from "koa-router";
 import { ZodError } from "zod";
 
-import { schedulingDto } from "../dtos/indext";
+import { schedulingDto } from "../dtos";
 
 const schedulingRoutes = new Router();
 

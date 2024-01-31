@@ -2,7 +2,7 @@ import * as z from "zod";
 
 const signUpSchema = z
   .object({
-    role: z.union([z.literal("Corretor"), z.literal("Cliente")]),
+    role: z.union([z.literal("Consultor"), z.literal("Cliente")]),
     email: z.string().email("Invalid mail"),
     name: z.string().min(3, "Name must have at least 3 digits"),
     profilePicture: z.string().url("Profile picture must be an url"),
@@ -14,8 +14,19 @@ const signUpSchema = z
     path: ["confirmPassword"],
   });
 
-export const signUpDto = (userCredentials: unknown) => {
-  const credentials = signUpSchema.parse(userCredentials);
+export type signUpRequest = {
+  role: string;
+  email: string;
+  name: string;
+  profilePicture: string;
+  password: string;
+};
+
+export const signUpDto = (userCredentials: unknown): signUpRequest => {
+  const { email, name, password, profilePicture, role } =
+    signUpSchema.parse(userCredentials);
+
+  const credentials = { email, name, password, profilePicture, role };
 
   return credentials;
 };
