@@ -1,6 +1,10 @@
-import { authenticationMiddleware, login } from "@/models/auth/services/auth";
+import {
+  authenticationMiddleware,
+  login,
+  signUp,
+} from "@/models/auth/services/auth";
 import { signInDto } from "@/models/users/dtos/signin.dto";
-import { signUpDto } from "@/models/users/dtos/signupdto.";
+import { signUpDto } from "@/models/users/dtos/signup.dto";
 import { errorHandler } from "@/utils/error/error.handle";
 import Router from "koa-router";
 import { ZodError } from "zod";
@@ -35,7 +39,7 @@ userRoutes.post("/signup", authenticationMiddleware, async (context) => {
   try {
     const userData = signUpDto(context.request.body);
     const userFromDb = await createUser(userData);
-    const token = await login(userFromDb);
+    const token = signUp(userFromDb);
     context.status = 200;
     context.body = token;
   } catch (err) {

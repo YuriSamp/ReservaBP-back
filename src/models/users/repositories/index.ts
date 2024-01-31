@@ -1,12 +1,16 @@
-import { signUpRequest } from "../dtos/signupdto.";
-import { UserModel } from "../model/user.mongosse.model";
+import { signUpRequest } from "../dtos/signup.dto";
+import { userModel } from "../model/user.mongosse.model";
 
-export const getByEmail = (email: string) => {};
+export const getByEmail = async (email: string) => {
+  const user = await userModel.findOne({ email: email });
+
+  return user;
+};
 
 export const getAllConsultants = () => {};
 
 export const create = async (user: signUpRequest) => {
-  const newUser = await UserModel.create(user);
+  const newUser = await userModel.create(user);
   const reponse = {
     password: newUser.password,
     email: newUser.email,

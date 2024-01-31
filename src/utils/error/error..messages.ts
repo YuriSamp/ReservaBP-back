@@ -1,5 +1,5 @@
 export const ErrorMessages = {
-  // NOT_FOUND: (entity: string) => `${entity} not found`,
+  NOT_FOUND: (entity: string) => `${entity} not found`,
 
   // ALREADY_EXISTS: (entity: string) =>
   //   `${entity} already exists in the database`,

@@ -1,3 +1,4 @@
+import { getUserByEmail } from "@/models/users/services/user.service";
 import { ErrorMessages } from "@/utils/error/error..messages";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -8,7 +9,7 @@ type payload = {
   password: string;
 };
 
-const EXPIRE_DATE = "1h";
+const EXPIRE_DATE = "1d";
 
 export const authenticationMiddleware = async (
   context: Context,
@@ -46,6 +47,25 @@ export const authenticationMiddleware = async (
 };
 
 export const login = async (payload: payload) => {
+  const user = await getUserByEmail(payload.email);
+
+  const isValidPassword = await comparePasswords(
+    payload.password,
+    user.password
+  );
+
+  if (!isValidPassword) {
+    throw new Error(ErrorMessages.INVALID_CREDENTIALS);
+  }
+
+  const token = jwt.sign(payload, process.env.JWT_SECRET as string, {
+    expiresIn: EXPIRE_DATE,
+  });
+
+  return token;
+};
+
+export const signUp = (payload: payload) => {
   const token = jwt.sign(payload, process.env.JWT_SECRET as string, {
     expiresIn: EXPIRE_DATE,
   });

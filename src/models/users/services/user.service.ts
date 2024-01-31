@@ -1,8 +1,7 @@
+import { signUpRequest } from "@/models/users/dtos/signup.dto";
+import { create, getByEmail } from "@/models/users/repositories";
 import { ErrorMessages } from "@/utils/error/error..messages";
 import bcrypt from "bcrypt";
-
-import { signUpRequest } from "../dtos/signupdto.";
-import { create } from "../repositories";
 
 export const createUser = async (user: signUpRequest) => {
   user.password = await hashPassword(user.password);
@@ -14,6 +13,16 @@ export const createUser = async (user: signUpRequest) => {
   }
 
   return newUser;
+};
+
+export const getUserByEmail = async (email: string) => {
+  const user = await getByEmail(email);
+
+  if (!user) {
+    throw new Error(ErrorMessages.NOT_FOUND(`User with email ${email}`));
+  }
+
+  return user;
 };
 
 const hashPassword = async (password: string) => {

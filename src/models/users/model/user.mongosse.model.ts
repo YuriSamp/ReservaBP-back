@@ -23,4 +23,4 @@ export type mongooseUserSchema = userSchema & {
   updatedAt: Date;
 };
 
-export const UserModel = model("User", UserSchema);
+export const userModel = model("User", UserSchema);
