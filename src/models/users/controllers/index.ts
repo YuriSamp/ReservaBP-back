@@ -8,8 +8,10 @@ import { signInDto } from "@/models/users/dtos/signin.dto";
 import { signUpDto } from "@/models/users/dtos/signup.dto";
 import {
   createUser,
+  deleteUser,
   getUserByEmail,
   getUsers,
+  updateUser,
 } from "@/models/users/services/user.service";
 import { errorHandler } from "@/utils/error/error.handle";
 import Router from "koa-router";
@@ -47,6 +49,11 @@ userRoutes.post("/signup", authenticationMiddleware, async (context) => {
     context.status = 201;
     context.body = token;
   } catch (err) {
+    if (err instanceof ZodError) {
+      context.status = 400;
+      context.message = err.errors.at(0)?.message as string;
+      return;
+    }
     if (err instanceof Error) {
       console.log(err);
       const { message, status } =
@@ -79,10 +86,11 @@ userRoutes.get("/user/me", authenticationMiddleware, async (context) => {
     const userData = await getUserByEmail(email);
 
     const user = {
-      id: JSON.stringify(userData._id),
+      id: userData._id,
       role: userData.role,
       email: userData.email,
       profilePicture: userData.profilePicture,
+      name: userData.name,
     };
 
     context.body = user;
@@ -99,11 +107,16 @@ userRoutes.get("/user/me", authenticationMiddleware, async (context) => {
 
 userRoutes.put("/user/:id", authenticationMiddleware, async (context) => {
   try {
-    const email = "yurisamp123@gmail.com";
-
+    const userId = context.params.id;
+    const userData = signUpDto(context.request.body);
+    await updateUser(userId as string, userData);
     context.status = 200;
-    // context.body = user;
   } catch (err) {
+    if (err instanceof ZodError) {
+      context.status = 400;
+      context.message = err.errors.at(0)?.message as string;
+      return;
+    }
     if (err instanceof Error) {
       const { message, status } =
         errorHandler[err.message as keyof typeof errorHandler];
@@ -115,7 +128,8 @@ userRoutes.put("/user/:id", authenticationMiddleware, async (context) => {
 
 userRoutes.delete("/user/:id", authenticationMiddleware, async (context) => {
   try {
-    const email = "yurisamp123@gmail.com";
+    const userId = context.params.id;
+    await deleteUser(userId as string);
     context.status = 200;
   } catch (err) {
     if (err instanceof Error) {

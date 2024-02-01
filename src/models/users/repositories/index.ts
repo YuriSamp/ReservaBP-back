@@ -22,14 +22,14 @@ export const create = async (user: RequestUserDTO) => {
 };
 
 export const update = async (id: string, user: RequestUserDTO) => {
-  const updatedUser = userModel.findByIdAndUpdate(id, user, {
+  const updatedUser = await userModel.findByIdAndUpdate(id, user, {
     new: true,
   });
 
   return updatedUser;
 };
 
-export const softDelete = async (id: string) => {
+export const permanentDelete = async (id: string) => {
   const deletedUser = await userModel.findByIdAndDelete({ _id: id });
 
   return deletedUser;

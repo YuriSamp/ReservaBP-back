@@ -3,7 +3,7 @@ import {
   create,
   getAllUsers,
   getByEmail,
-  softDelete,
+  permanentDelete,
   update,
 } from "@/models/users/repositories";
 import { ErrorMessages } from "@/utils/error/error..messages";
@@ -50,6 +50,7 @@ export const getUsers = async () => {
 };
 
 export const updateUser = async (id: string, user: RequestUserDTO) => {
+  user.password = await hashPassword(user.password);
   const updatedUser = await update(id, user);
 
   if (!updatedUser) {
@@ -59,8 +60,8 @@ export const updateUser = async (id: string, user: RequestUserDTO) => {
   return updatedUser;
 };
 
-export const softDeleteUser = async (id: string) => {
-  const deletedUser = await softDelete(id);
+export const deleteUser = async (id: string) => {
+  const deletedUser = await permanentDelete(id);
 
   if (!deletedUser) {
     throw new Error(ErrorMessages.CANNOT_DELETE(`User with email ${id}`));
