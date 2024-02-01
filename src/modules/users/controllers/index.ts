@@ -3,16 +3,16 @@ import {
   login,
   payload,
   signUp,
-} from "@/models/auth/services/auth";
-import { signInDto } from "@/models/users/dtos/signin.dto";
-import { signUpDto } from "@/models/users/dtos/signup.dto";
+} from "@/modules/auth/services/auth";
+import { signInDto } from "@/modules/users/dtos/signin.dto";
+import { signUpDto } from "@/modules/users/dtos/signup.dto";
 import {
   createUser,
   deleteUser,
   getUserByEmail,
   getUsers,
   updateUser,
-} from "@/models/users/services/user.service";
+} from "@/modules/users/services/user.service";
 import { errorHandler } from "@/utils/error/error.handle";
 import Router from "koa-router";
 import { ZodError } from "zod";

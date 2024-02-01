@@ -1,4 +1,4 @@
-import { authenticationMiddleware } from "@/models/auth/services/auth";
+import { authenticationMiddleware } from "@/modules/auth/services/auth";
 import { errorHandler } from "@/utils/error/error.handle";
 import Router from "koa-router";
 import { ZodError } from "zod";

@@ -1,4 +1,4 @@
-import { schedulingModel } from "../model/scheduling.model";
+import { schedulingModel } from "@/modules/scheduling/model/scheduling.model";
 
 export const createScheduleAppointment = async () => {
   const teste = await schedulingModel.find({});

@@ -1,4 +1,4 @@
-import { getUserByEmail } from "@/models/users/services/user.service";
+import { getUserByEmail } from "@/modules/users/services/user.service";
 import { ErrorMessages } from "@/utils/error/error..messages";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";

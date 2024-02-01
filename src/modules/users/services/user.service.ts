@@ -1,11 +1,11 @@
-import { RequestUserDTO } from "@/models/users/dtos/signup.dto";
+import { RequestUserDTO } from "@/modules/users/dtos/signup.dto";
 import {
   create,
   getAllUsers,
   getByEmail,
   permanentDelete,
   update,
-} from "@/models/users/repositories";
+} from "@/modules/users/repositories";
 import { ErrorMessages } from "@/utils/error/error..messages";
 import bcrypt from "bcrypt";
 

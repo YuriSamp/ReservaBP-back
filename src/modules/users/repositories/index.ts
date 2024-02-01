@@ -1,5 +1,5 @@
-import { RequestUserDTO } from "../dtos/signup.dto";
-import { userModel } from "../model/user.mongosse.model";
+import { RequestUserDTO } from "@/modules/users/dtos/signup.dto";
+import { userModel } from "@/modules/users/model/user.mongosse.model";
 
 export const getByEmail = async (email: string) => {
   const user = await userModel.findOne({ email: email });
