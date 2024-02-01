@@ -1,6 +1,6 @@
-import { InferSchemaType, model, Model, Schema, Types } from "mongoose";
+import { model, Schema } from "mongoose";
 
-const UserSchema = new Schema(
+const userSchema = new Schema(
   {
     role: { type: String, require: true },
     email: { type: String, unique: true, required: true },
@@ -13,14 +13,4 @@ const UserSchema = new Schema(
   }
 );
 
-export type userSchema = InferSchemaType<typeof UserSchema>;
-
-export type mongooseUserModel = Model<userSchema>;
-
-export type mongooseUserSchema = userSchema & {
-  _id: Types.ObjectId;
-  createdAt: Date;
-  updatedAt: Date;
-};
-
-export const userModel = model("User", UserSchema);
+export const userModel = model("User", userSchema);

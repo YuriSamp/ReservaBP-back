@@ -2,7 +2,7 @@ import * as z from "zod";
 
 const signUpSchema = z
   .object({
-    role: z.union([z.literal("Consultor"), z.literal("Cliente")]),
+    role: z.union([z.literal("Corretor de seguro"), z.literal("Cliente")]),
     email: z.string().email("Invalid mail"),
     name: z.string().min(3, "Name must have at least 3 digits"),
     profilePicture: z.string().url("Profile picture must be an url"),

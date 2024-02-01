@@ -1,7 +1,7 @@
 import * as z from "zod";
 
 const schedulingSchema = z.object({
-  consultor: z.string().min(3),
+  corretor: z.string().min(3),
   date: z.string().min(3),
   startTime: z.string().length(4),
   endTime: z.string().length(4),
