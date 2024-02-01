@@ -1,4 +1,4 @@
-import { signUpRequest } from "../dtos/signup.dto";
+import { RequestUserDTO } from "../dtos/signup.dto";
 import { userModel } from "../model/user.mongosse.model";
 
 export const getByEmail = async (email: string) => {
@@ -7,9 +7,12 @@ export const getByEmail = async (email: string) => {
   return user;
 };
 
-export const getAllConsultants = () => {};
+export const getAllUsers = async () => {
+  const users = await userModel.find({});
+  return users;
+};
 
-export const create = async (user: signUpRequest) => {
+export const create = async (user: RequestUserDTO) => {
   const newUser = await userModel.create(user);
   const reponse = {
     password: newUser.password,
@@ -18,6 +21,16 @@ export const create = async (user: signUpRequest) => {
   return reponse;
 };
 
-export const update = () => {};
+export const update = async (id: string, user: RequestUserDTO) => {
+  const updatedUser = userModel.findByIdAndUpdate(id, user, {
+    new: true,
+  });
 
-export const softDelete = () => {};
+  return updatedUser;
+};
+
+export const softDelete = async (id: string) => {
+  const deletedUser = await userModel.findByIdAndDelete({ _id: id });
+
+  return deletedUser;
+};

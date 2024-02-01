@@ -14,7 +14,7 @@ const signUpSchema = z
     path: ["confirmPassword"],
   });
 
-export type signUpRequest = {
+export type RequestUserDTO = {
   role: string;
   email: string;
   name: string;
@@ -22,7 +22,7 @@ export type signUpRequest = {
   password: string;
 };
 
-export const signUpDto = (userCredentials: unknown): signUpRequest => {
+export const signUpDto = (userCredentials: unknown): RequestUserDTO => {
   const { email, name, password, profilePicture, role } =
     signUpSchema.parse(userCredentials);
 

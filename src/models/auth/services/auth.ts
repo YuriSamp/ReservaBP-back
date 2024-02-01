@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Context, Next } from "koa";
 
-type payload = {
+export type payload = {
   email: string;
   password: string;
 };
@@ -26,8 +26,8 @@ export const authenticationMiddleware = async (
           process.env.JWT_SECRET as string
         ) as jwt.JwtPayload;
 
-        context.userId = payload.id;
-        next();
+        context.user = payload;
+        await next();
         return;
       } catch (err) {
         throw new Error(ErrorMessages.UNAUTHORIZED);

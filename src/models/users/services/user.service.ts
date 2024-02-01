@@ -1,9 +1,15 @@
-import { signUpRequest } from "@/models/users/dtos/signup.dto";
-import { create, getByEmail } from "@/models/users/repositories";
+import { RequestUserDTO } from "@/models/users/dtos/signup.dto";
+import {
+  create,
+  getAllUsers,
+  getByEmail,
+  softDelete,
+  update,
+} from "@/models/users/repositories";
 import { ErrorMessages } from "@/utils/error/error..messages";
 import bcrypt from "bcrypt";
 
-export const createUser = async (user: signUpRequest) => {
+export const createUser = async (user: RequestUserDTO) => {
   user.password = await hashPassword(user.password);
 
   const newUser = await create(user);
@@ -23,6 +29,44 @@ export const getUserByEmail = async (email: string) => {
   }
 
   return user;
+};
+
+export const getUsers = async () => {
+  const users = await getAllUsers();
+
+  if (!users) {
+    //Melhorar depois
+    throw new Error("CANNOT FIND ANY USER");
+  }
+
+  const userData = users.map((user) => ({
+    id: JSON.stringify(user._id),
+    role: user.role,
+    email: user.email,
+    profilePicture: user.profilePicture,
+  }));
+
+  return userData;
+};
+
+export const updateUser = async (id: string, user: RequestUserDTO) => {
+  const updatedUser = await update(id, user);
+
+  if (!updatedUser) {
+    throw new Error(ErrorMessages.CANNOT_UPDATE(`User with id ${id}`));
+  }
+
+  return updatedUser;
+};
+
+export const softDeleteUser = async (id: string) => {
+  const deletedUser = await softDelete(id);
+
+  if (!deletedUser) {
+    throw new Error(ErrorMessages.CANNOT_DELETE(`User with email ${id}`));
+  }
+
+  return deletedUser;
 };
 
 const hashPassword = async (password: string) => {

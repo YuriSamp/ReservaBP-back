@@ -1,15 +1,19 @@
 import {
   authenticationMiddleware,
   login,
+  payload,
   signUp,
 } from "@/models/auth/services/auth";
 import { signInDto } from "@/models/users/dtos/signin.dto";
 import { signUpDto } from "@/models/users/dtos/signup.dto";
+import {
+  createUser,
+  getUserByEmail,
+  getUsers,
+} from "@/models/users/services/user.service";
 import { errorHandler } from "@/utils/error/error.handle";
 import Router from "koa-router";
 import { ZodError } from "zod";
-
-import { createUser } from "../services/user.service";
 
 const userRoutes = new Router();
 
@@ -40,10 +44,11 @@ userRoutes.post("/signup", authenticationMiddleware, async (context) => {
     const userData = signUpDto(context.request.body);
     const userFromDb = await createUser(userData);
     const token = signUp(userFromDb);
-    context.status = 200;
+    context.status = 201;
     context.body = token;
   } catch (err) {
     if (err instanceof Error) {
+      console.log(err);
       const { message, status } =
         errorHandler[err.message as keyof typeof errorHandler];
       context.status = status;
@@ -54,16 +59,10 @@ userRoutes.post("/signup", authenticationMiddleware, async (context) => {
 
 userRoutes.get("/users", authenticationMiddleware, async (context) => {
   try {
-    const arrayDeObjetos = [
-      { id: 1, name: "Objeto 1" },
-      { id: 2, name: "Objeto 2" },
-      { id: 3, name: "Objeto 3" },
-      { id: 4, name: "Objeto 4" },
-      { id: 5, name: "Objeto 5" },
-    ];
+    const users = await getUsers();
 
     context.status = 200;
-    context.body = arrayDeObjetos;
+    context.body = users;
   } catch (err) {
     if (err instanceof Error) {
       const { message, status } =
@@ -76,15 +75,18 @@ userRoutes.get("/users", authenticationMiddleware, async (context) => {
 
 userRoutes.get("/user/me", authenticationMiddleware, async (context) => {
   try {
+    const { email } = context.user as payload;
+    const userData = await getUserByEmail(email);
+
     const user = {
-      email: "teste123@gmail.com",
-      name: "Yuri",
-      profilePicture: "https://github.com/samsantosb.png",
-      role: "Consultor",
+      id: JSON.stringify(userData._id),
+      role: userData.role,
+      email: userData.email,
+      profilePicture: userData.profilePicture,
     };
 
-    context.status = 200;
     context.body = user;
+    context.status = 200;
   } catch (err) {
     if (err instanceof Error) {
       const { message, status } =
@@ -97,17 +99,10 @@ userRoutes.get("/user/me", authenticationMiddleware, async (context) => {
 
 userRoutes.put("/user/:id", authenticationMiddleware, async (context) => {
   try {
-    const userId = context.params.id;
-    const user = {
-      id: 1,
-      email: "teste123@gmail.com",
-      name: "Yuri",
-      profilePicture: "https://github.com/samsantosb.png",
-      role: "Consultor",
-    };
+    const email = "yurisamp123@gmail.com";
 
     context.status = 200;
-    context.body = user;
+    // context.body = user;
   } catch (err) {
     if (err instanceof Error) {
       const { message, status } =
@@ -120,6 +115,7 @@ userRoutes.put("/user/:id", authenticationMiddleware, async (context) => {
 
 userRoutes.delete("/user/:id", authenticationMiddleware, async (context) => {
   try {
+    const email = "yurisamp123@gmail.com";
     context.status = 200;
   } catch (err) {
     if (err instanceof Error) {
