@@ -1,4 +1,4 @@
-# backend-challenge Reserva BP
+# fullstack-challenge Reserva BP
 
 ## Como rodar o projeto
 
@@ -67,6 +67,5 @@ FALTA FAZER
 [✅] Faça uma Documentação no README da aplicação
 
 [✅] Coloque seu código no Github
-
 
 ## Observações
