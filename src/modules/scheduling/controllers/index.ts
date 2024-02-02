@@ -1,32 +1,41 @@
 import { authenticationMiddleware } from "@/modules/auth/services/auth";
+import { schedulingDto } from "@/modules/scheduling/dtos";
+import { createScheduling } from "@/modules/scheduling/services/scheduling.service";
 import { errorHandler } from "@/utils/error/error.handle";
 import Router from "koa-router";
+import { MongooseError } from "mongoose";
 import { ZodError } from "zod";
-
-import { schedulingDto } from "../dtos";
 
 const schedulingRoutes = new Router();
 
-schedulingRoutes.post("/scheduling", authenticationMiddleware, (context) => {
-  const { data } = context.request.body as { data: unknown };
-  try {
-    schedulingDto(data);
+schedulingRoutes.post(
+  "/scheduling",
+  authenticationMiddleware,
+  async (context) => {
+    try {
+      const schedule = schedulingDto(context.request.body);
+      await createScheduling(schedule);
 
-    context.status = 200;
-    context.body = "Deu tudo certo chefia";
-  } catch (err) {
-    if (err instanceof ZodError) {
-      context.status = 400;
-      context.message = err.errors.at(0)?.message as string;
-      return;
-    }
-    if (err instanceof Error) {
-      const { message, status } =
-        errorHandler[err.message as keyof typeof errorHandler];
-      context.status = status;
-      context.message = message;
+      context.status = 200;
+      context.body = "Agendamento criado com sucesso";
+    } catch (err) {
+      console.log(err);
+      if (err instanceof MongooseError) {
+        console.log(err);
+      }
+      if (err instanceof ZodError) {
+        context.status = 400;
+        context.message = err.errors.at(0)?.message as string;
+        return;
+      }
+      if (err instanceof Error) {
+        const { message, status } =
+          errorHandler[err.message as keyof typeof errorHandler];
+        context.status = status;
+        context.message = message;
+      }
     }
   }
-});
+);
 
 export { schedulingRoutes };

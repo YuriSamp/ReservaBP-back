@@ -2,14 +2,15 @@ import { model, Schema } from "mongoose";
 
 const schedulingSchema = new Schema(
   {
-    agent: { type: String, required: true },
-    date: { type: String, required: true },
-    startTime: { type: String, unique: true, required: true },
-    endTime: { type: String, required: true },
+    corretor: { type: String, required: true },
+    cliente: { type: String, required: true },
+    date: { type: Date, required: true },
+    startTime: { type: Date, unique: true, required: true },
+    endTime: { type: Date, required: true },
   },
   {
     timestamps: { createdAt: "createdAt", updatedAt: "updatedAt" },
   }
 );
 
-export const schedulingModel = model("User", schedulingSchema);
+export const schedulingModel = model("Scheduling", schedulingSchema);

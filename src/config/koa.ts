@@ -1,5 +1,5 @@
-import { schedulingRoutes } from "@/models/scheduling/controllers";
-import { userRoutes } from "@/models/users/controllers";
+import { schedulingRoutes } from "@/modules/scheduling/controllers";
+import { userRoutes } from "@/modules/users/controllers";
 import cors from "@koa/cors";
 import Koa from "koa";
 import bodyParser from "koa-bodyparser";

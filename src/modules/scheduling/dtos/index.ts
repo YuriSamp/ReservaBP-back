@@ -1,11 +1,20 @@
-import * as z from "zod";
+import z from "zod";
 
 const schedulingSchema = z.object({
   corretor: z.string().min(3),
-  date: z.string().min(3),
-  startTime: z.string().length(4),
-  endTime: z.string().length(4),
+  cliente: z.string().min(3),
+  date: z.string(),
+  startTime: z.string(),
+  endTime: z.string(),
 });
+
+export type shchedulingRequestDto = {
+  corretor: string;
+  cliente: string;
+  date: Date;
+  startTime: Date;
+  endTime: Date;
+};
 
 export const schedulingDto = (schedulingData: unknown) => {
   const validaterScheduling = schedulingSchema.safeParse(schedulingData);
@@ -14,5 +23,16 @@ export const schedulingDto = (schedulingData: unknown) => {
     throw new Error(`Invalid scheduling data: ${validaterScheduling.error} `);
   }
 
-  return validaterScheduling.data;
+  const { cliente, corretor, date, endTime, startTime } =
+    validaterScheduling.data;
+
+  const data = {
+    cliente,
+    corretor,
+    date: new Date(date),
+    endTime: new Date(endTime),
+    startTime: new Date(startTime),
+  };
+
+  return data;
 };
