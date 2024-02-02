@@ -17,6 +17,7 @@
     "@babel/core": "^7.23.9",
     "@babel/preset-env": "^7.23.9",
     "@babel/preset-typescript": "^7.23.3",
+    "@faker-js/faker": "^8.4.0",
     "@ianvs/prettier-plugin-sort-imports": "^4.1.1",
     "@jest/globals": "^29.7.0",
     "@types/bcrypt": "^5.0.2",
