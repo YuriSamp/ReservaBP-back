@@ -1,5 +1,5 @@
 import { RequestUserDTO } from "../dtos/signup.dto";
-import { fakeUser } from "./fake.request.user";
+import { fakeUser } from "./fake.user";
 
 export const fakeServicecreateUser = async (user: RequestUserDTO) => {
   return Promise.resolve(fakeUser);

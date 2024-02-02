@@ -1,5 +1,6 @@
-import { fakeMongoObjectId } from "@/__mocks__/fake.mong.o.id";
 import { faker } from "@faker-js/faker";
+
+import { fakeMongoObjectId } from "../../../__mocks__/fake.mongo.id";
 
 export const generateFakeUser = () => ({
   _id: fakeMongoObjectId,
