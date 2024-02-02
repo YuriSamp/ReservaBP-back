@@ -1,7 +1,7 @@
-import { authenticationMiddleware } from "@/modules/auth/services/auth";
 import { schedulingDto } from "@/modules/scheduling/dtos";
 import { createScheduling } from "@/modules/scheduling/services/scheduling.service";
-import { errorHandler } from "@/utils/error/error.handle";
+import { authenticationMiddleware } from "@/shared/auth.middleware";
+import { errorHandler } from "@/shared/error/error.handle";
 import Router from "koa-router";
 import { MongooseError } from "mongoose";
 import { ZodError } from "zod";

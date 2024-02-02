@@ -6,7 +6,7 @@ import {
   permanentDelete,
   update,
 } from "@/modules/users/repositories";
-import { ErrorMessages } from "@/utils/error/error..messages";
+import { ErrorMessages } from "@/shared/error/error.messages";
 import bcrypt from "bcrypt";
 
 export const createUser = async (user: RequestUserDTO) => {
@@ -39,14 +39,7 @@ export const getUsers = async () => {
     throw new Error("CANNOT FIND ANY USER");
   }
 
-  const userData = users.map((user) => ({
-    id: JSON.stringify(user._id),
-    role: user.role,
-    email: user.email,
-    profilePicture: user.profilePicture,
-  }));
-
-  return userData;
+  return users;
 };
 
 export const updateUser = async (id: string, user: RequestUserDTO) => {

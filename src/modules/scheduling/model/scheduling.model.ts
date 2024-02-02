@@ -5,7 +5,7 @@ const schedulingSchema = new Schema(
     corretor: { type: String, required: true },
     cliente: { type: String, required: true },
     date: { type: Date, required: true },
-    startTime: { type: Date, unique: true, required: true },
+    startTime: { type: Date, required: true },
     endTime: { type: Date, required: true },
   },
   {

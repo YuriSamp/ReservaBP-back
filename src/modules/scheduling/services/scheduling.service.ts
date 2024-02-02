@@ -20,6 +20,5 @@ const checkAvailability = async (scheduling: shchedulingRequestDto) => {
 
   console.log({ _scheduling });
 
-  if (!_scheduling) return true;
-  return false;
+  return !_scheduling;
 };

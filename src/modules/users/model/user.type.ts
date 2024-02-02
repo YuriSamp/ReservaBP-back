@@ -2,8 +2,9 @@ import { Types } from "mongoose";
 
 export type User = {
   _id: string | Types.ObjectId;
-  name: string;
+  role : string
   email: string;
+  name: string;
   password: string;
   profilePicture: string;
   createdAt?: Date | string;

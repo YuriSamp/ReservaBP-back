@@ -1,7 +1,7 @@
 import "dotenv/config";
 
 import { app } from "./config/koa";
-import { mongooseConnect } from "./database/mongosse";
+import { mongooseConnect } from "./database/mongoose";
 
 const mongo = process.env.DATABASE_URL || "";
 

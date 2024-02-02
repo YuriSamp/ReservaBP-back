@@ -1,9 +1,4 @@
-import {
-  authenticationMiddleware,
-  login,
-  payload,
-  signUp,
-} from "@/modules/auth/services/auth";
+import { login, payload, signUp } from "@/modules/auth/services/auth";
 import { signInDto } from "@/modules/users/dtos/signin.dto";
 import { signUpDto } from "@/modules/users/dtos/signup.dto";
 import {
@@ -13,9 +8,13 @@ import {
   getUsers,
   updateUser,
 } from "@/modules/users/services/user.service";
-import { errorHandler } from "@/utils/error/error.handle";
+import { authenticationMiddleware } from "@/shared/auth.middleware";
+import { errorHandler } from "@/shared/error/error.handle";
 import Router from "koa-router";
 import { ZodError } from "zod";
+
+import { getUserReponseDto } from "../dtos/getuser.dto";
+import { User } from "../model/user.type";
 
 const userRoutes = new Router();
 
@@ -66,8 +65,8 @@ userRoutes.post("/signup", authenticationMiddleware, async (context) => {
 
 userRoutes.get("/users", authenticationMiddleware, async (context) => {
   try {
-    const users = await getUsers();
-
+    const usersData = await getUsers();
+    const users = getUserReponseDto(usersData as User[]);
     context.status = 200;
     context.body = users;
   } catch (err) {
