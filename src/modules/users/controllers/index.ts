@@ -1,23 +1,22 @@
 import { login, payload, signUp } from "@/modules/auth/services/auth.service";
+import { getUserReponseDto } from "@/modules/users/dtos/getuser.dto";
 import { signInDto } from "@/modules/users/dtos/signin.dto";
 import { signUpDto } from "@/modules/users/dtos/signup.dto";
+import { User } from "@/modules/users/model/user.type";
 import {
   createUser,
   deleteUser,
-  getUserByEmail,
+  getUserById,
   getUsers,
   updateUser,
 } from "@/modules/users/services/user.service";
+import { handleUserErrors } from "@/modules/users/utils/user.error.handler";
 import { authenticationMiddleware } from "@/shared/auth.middleware";
-import { errorHandler } from "@/shared/error/error.handle";
 import Router from "koa-router";
-import { ZodError } from "zod";
-
-import { getUserReponseDto } from "../dtos/getuser.dto";
-import { User } from "../model/user.type";
 
 const userRoutes = new Router();
 
+//200, 400, 404,
 userRoutes.post("/signin", async (context) => {
   try {
     const userData = signInDto(context.request.body);
@@ -26,21 +25,14 @@ userRoutes.post("/signin", async (context) => {
     context.status = 200;
     context.body = token;
   } catch (err) {
-    if (err instanceof ZodError) {
-      context.status = 400;
-      context.message = err.errors.at(0)?.message as string;
-      return;
-    }
-    if (err instanceof Error) {
-      const { message, status } =
-        errorHandler[err.message as keyof typeof errorHandler];
-      context.status = status;
-      context.message = message;
-    }
+    const { message, status } = handleUserErrors(err);
+    context.status = status;
+    context.message = message;
   }
 });
 
-userRoutes.post("/signup", authenticationMiddleware, async (context) => {
+//201. 400, 409
+userRoutes.post("/signup", async (context) => {
   try {
     const userData = signUpDto(context.request.body);
     const userFromDb = await createUser(userData);
@@ -48,21 +40,13 @@ userRoutes.post("/signup", authenticationMiddleware, async (context) => {
     context.status = 201;
     context.body = token;
   } catch (err) {
-    if (err instanceof ZodError) {
-      context.status = 400;
-      context.message = err.errors.at(0)?.message as string;
-      return;
-    }
-    if (err instanceof Error) {
-      console.log(err);
-      const { message, status } =
-        errorHandler[err.message as keyof typeof errorHandler];
-      context.status = status;
-      context.message = message;
-    }
+    const { message, status } = handleUserErrors(err);
+    context.status = status;
+    context.message = message;
   }
 });
 
+//200, 401
 userRoutes.get("/users", authenticationMiddleware, async (context) => {
   try {
     const usersData = await getUsers();
@@ -71,18 +55,18 @@ userRoutes.get("/users", authenticationMiddleware, async (context) => {
     context.body = users;
   } catch (err) {
     if (err instanceof Error) {
-      const { message, status } =
-        errorHandler[err.message as keyof typeof errorHandler];
+      const { message, status } = handleUserErrors(err);
       context.status = status;
       context.message = message;
     }
   }
 });
 
+// 200, 401 ou 404
 userRoutes.get("/user/me", authenticationMiddleware, async (context) => {
   try {
     const { email } = context.user as payload;
-    const userData = await getUserByEmail(email);
+    const userData = await getUserById(email);
 
     const user = {
       id: userData._id,
@@ -95,48 +79,37 @@ userRoutes.get("/user/me", authenticationMiddleware, async (context) => {
     context.body = user;
     context.status = 200;
   } catch (err) {
-    if (err instanceof Error) {
-      const { message, status } =
-        errorHandler[err.message as keyof typeof errorHandler];
-      context.status = status;
-      context.message = message;
-    }
+    const { message, status } = handleUserErrors(err);
+    context.status = status;
+    context.message = message;
   }
 });
 
+// 200, 400, 401, 404
 userRoutes.put("/user/:id", authenticationMiddleware, async (context) => {
   try {
     const userId = context.params.id;
     const userData = signUpDto(context.request.body);
     await updateUser(userId as string, userData);
     context.status = 200;
+    context.message = "usuário atualizado com sucesso";
   } catch (err) {
-    if (err instanceof ZodError) {
-      context.status = 400;
-      context.message = err.errors.at(0)?.message as string;
-      return;
-    }
-    if (err instanceof Error) {
-      const { message, status } =
-        errorHandler[err.message as keyof typeof errorHandler];
-      context.status = status;
-      context.message = message;
-    }
+    const { message, status } = handleUserErrors(err);
+    context.status = status;
+    context.message = message;
   }
 });
 
+// 200, 400, 401, 404
 userRoutes.delete("/user/:id", authenticationMiddleware, async (context) => {
   try {
     const userId = context.params.id;
     await deleteUser(userId as string);
     context.status = 200;
   } catch (err) {
-    if (err instanceof Error) {
-      const { message, status } =
-        errorHandler[err.message as keyof typeof errorHandler];
-      context.status = status;
-      context.message = message;
-    }
+    const { message, status } = handleUserErrors(err);
+    context.status = status;
+    context.message = message;
   }
 });
 
