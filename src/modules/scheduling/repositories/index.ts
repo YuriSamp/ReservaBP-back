@@ -1,6 +1,6 @@
 import { schedulingModel } from "@/modules/scheduling/model/scheduling.model";
 
-import { shchedulingRequestDto } from "../dtos";
+import { shchedulingRequestDto } from "../dtos/scheduling.dto";
 
 export const createScheduleAppointment = async (
   scheduling: shchedulingRequestDto

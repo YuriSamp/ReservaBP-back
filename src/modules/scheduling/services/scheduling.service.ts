@@ -3,7 +3,7 @@ import {
   getscheduleAppointmentByDate,
 } from "@/modules/scheduling/repositories";
 
-import { shchedulingRequestDto } from "../dtos";
+import { shchedulingRequestDto } from "../dtos/scheduling.dto";
 
 export const createScheduling = async (scheduling: shchedulingRequestDto) => {
   const isAvailable = await checkAvailability(scheduling);

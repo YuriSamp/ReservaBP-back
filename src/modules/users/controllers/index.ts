@@ -1,4 +1,4 @@
-import { login, payload, signUp } from "@/modules/auth/services/auth";
+import { login, payload, signUp } from "@/modules/auth/services/auth.service";
 import { signInDto } from "@/modules/users/dtos/signin.dto";
 import { signUpDto } from "@/modules/users/dtos/signup.dto";
 import {

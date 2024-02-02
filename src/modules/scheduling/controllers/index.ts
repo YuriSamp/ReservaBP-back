@@ -1,4 +1,4 @@
-import { schedulingDto } from "@/modules/scheduling/dtos";
+import { schedulingDto } from "@/modules/scheduling/dtos/scheduling.dto";
 import { createScheduling } from "@/modules/scheduling/services/scheduling.service";
 import { authenticationMiddleware } from "@/shared/auth.middleware";
 import { errorHandler } from "@/shared/error/error.handle";
