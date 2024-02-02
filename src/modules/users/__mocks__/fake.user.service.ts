@@ -1,25 +1,27 @@
 import { RequestUserDTO } from "../dtos/signup.dto";
 import { fakeUser } from "./fake.user";
 
-export const fakeServicecreateUser = async (user: RequestUserDTO) => {
-  return Promise.resolve(fakeUser);
-};
+export const fakeUserService = {
+  async createUser(user: RequestUserDTO): Promise<typeof fakeUser | null> {
+    return Promise.resolve(fakeUser);
+  },
 
-export const fakeServicegetUserByEmail = async (email: string) => {
-  return Promise.resolve(fakeUser);
-};
+  async getUserByEmail(email: string): Promise<typeof fakeUser | null> {
+    return Promise.resolve(fakeUser);
+  },
 
-export const fakeServicegetUsers = async () => {
-  return Promise.resolve(Array.from({ length: 10 }, () => fakeUser));
-};
+  async getAllUsers(): Promise<(typeof fakeUser)[] | null> {
+    return Promise.resolve(Array.from({ length: 10 }, () => fakeUser));
+  },
 
-export const fakeServiceupdateUser = async (
-  id: string,
-  user: RequestUserDTO
-) => {
-  return Promise.resolve(fakeUser);
-};
+  async updateUser(
+    id: string,
+    user: RequestUserDTO
+  ): Promise<typeof fakeUser | null> {
+    return Promise.resolve(fakeUser);
+  },
 
-export const fakeServicedeleteUser = async (id: string) => {
-  return Promise.resolve(fakeUser);
+  async deleteUser(id: string): Promise<typeof fakeUser | null> {
+    return Promise.resolve(fakeUser);
+  },
 };

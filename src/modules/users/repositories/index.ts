@@ -20,11 +20,7 @@ export const getAllUsers = async () => {
 
 export const create = async (user: RequestUserDTO) => {
   const newUser = await userModel.create(user);
-  const reponse = {
-    password: newUser.password,
-    email: newUser.email,
-  };
-  return reponse;
+  return newUser;
 };
 
 export const update = async (id: string, user: RequestUserDTO) => {

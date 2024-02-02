@@ -1,4 +1,5 @@
 import { login, payload, signUp } from "@/modules/auth/services/auth.service";
+import { getCredentials } from "@/modules/users/dtos/getcredentials.dto";
 import { getUserReponseDto } from "@/modules/users/dtos/getuser.dto";
 import { signInDto } from "@/modules/users/dtos/signin.dto";
 import { signUpDto } from "@/modules/users/dtos/signup.dto";
@@ -36,7 +37,8 @@ userRoutes.post("/signup", async (context) => {
   try {
     const userData = signUpDto(context.request.body);
     const userFromDb = await createUser(userData);
-    const token = signUp(userFromDb);
+    const credentials = getCredentials(userFromDb as User);
+    const token = signUp(credentials);
     context.status = 201;
     context.body = token;
   } catch (err) {
