@@ -1,6 +1,6 @@
 import { describe, expect, test } from "@jest/globals";
 
-import { fakeRequestUser } from "../../__mocks__/fake.request.user";
+import { fakeRequestUser } from "../../__mocks__/fake-request.user";
 import { fakeUser } from "../../__mocks__/fake.user";
 import { fakeUserService } from "../../__mocks__/fake.user.service";
 

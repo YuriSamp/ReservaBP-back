@@ -1,7 +1,6 @@
 import { describe, expect, test } from "@jest/globals";
 
-import { fakeRequestUser } from "../../__mocks__/fake.request.user";
-import { fakeUser } from "../../__mocks__/fake.user";
+import { fakeRequestUser } from "../../__mocks__/fake-request.user";
 import {
   fakeRepositoryCreate,
   fakeRepositoryGetAllUsers,
@@ -9,7 +8,8 @@ import {
   fakeRepositoryGetById,
   fakeRepositoryPermanentDelete,
   fakeRepositoryUpdate,
-} from "../../__mocks__/fake.user.repository";
+} from "../../__mocks__/fake-user.repository";
+import { fakeUser } from "../../__mocks__/fake.user";
 import { fakeMongoObjectId } from "../../../../__mocks__/fake.mongo.id";
 
 describe("User Repository", () => {

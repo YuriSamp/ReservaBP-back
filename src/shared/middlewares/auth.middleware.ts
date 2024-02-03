@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { Context, Next } from "koa";
 
-import { CustomError } from "../error/custom-error";
+import { CustomError } from "../error/custom.error";
 import { ErrorMessages } from "../error/error.messages";
 
 export const authenticationMiddleware = async (

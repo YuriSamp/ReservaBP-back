@@ -1,4 +1,4 @@
-import { RequestUserDTO } from "@/modules/users/dtos/sign-up.dto";
+import { RequestUserDTO } from "@/modules/users/dtos/sign.up.dto";
 import {
   create,
   getAllUsers,
@@ -7,7 +7,7 @@ import {
   permanentDelete,
   update,
 } from "@/modules/users/repositories";
-import { CustomError } from "@/shared/error/custom-error";
+import { CustomError } from "@/shared/error/custom.error";
 import { ErrorMessages } from "@/shared/error/error.messages";
 import bcrypt from "bcrypt";
 

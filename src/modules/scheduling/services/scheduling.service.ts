@@ -3,7 +3,7 @@ import {
   getscheduleAppointmentByDate,
 } from "@/modules/scheduling/repositories/scheduling.repository";
 import { getByEmail } from "@/modules/users/repositories";
-import { CustomError } from "@/shared/error/custom-error";
+import { CustomError } from "@/shared/error/custom.error";
 import { ErrorMessages } from "@/shared/error/error.messages";
 import { differenceInMinutes } from "date-fns";
 

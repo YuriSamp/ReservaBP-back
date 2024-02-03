@@ -1,8 +1,8 @@
 import { login, payload, signUp } from "@/modules/auth/services/auth.service";
-import { getCredentials } from "@/modules/users/dtos/get-credentials.dto";
-import { getUserReponseDto } from "@/modules/users/dtos/get-user.dto";
-import { signInDto } from "@/modules/users/dtos/sign-in.dto";
-import { signUpDto } from "@/modules/users/dtos/sign-up.dto";
+import { getCredentials } from "@/modules/users/dtos/get.credentials.dto";
+import { getUserReponseDto } from "@/modules/users/dtos/get.user.dto";
+import { signInDto } from "@/modules/users/dtos/sign.in.dto";
+import { signUpDto } from "@/modules/users/dtos/sign.up.dto";
 import { User } from "@/modules/users/model/user.type";
 import {
   createUser,

@@ -1,0 +1,31 @@
+version: "3"
+services:
+  server:
+    container_name: reservabp-backend
+    image: yurisamp/reservabp-backend:0.0.5
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongo
+    networks:
+      - reservabp-net
+
+  client:
+    container_name: reservabp-frontend
+    image: yurisamp/reservabp-frontend:0.0.3
+    ports:
+      - "3000:3000"
+    networks:
+      - reservabp-net
+
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - reservabp-net
+
+networks:
+  reservabp-net:
+    driver: bridge

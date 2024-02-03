@@ -2,7 +2,7 @@ import { RESPONSE_STATUS_CODES } from "@/shared/error/response.status";
 import { JsonWebTokenError } from "jsonwebtoken";
 import { ZodError } from "zod";
 
-import { CustomError } from "./custom-error";
+import { CustomError } from "./custom.error";
 
 export const errorsHandler = (err: unknown) => {
   if (err instanceof SyntaxError) {

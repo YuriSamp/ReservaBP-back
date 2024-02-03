@@ -1,5 +1,5 @@
 import { getUserByEmail } from "@/modules/users/services/user.service";
-import { CustomError } from "@/shared/error/custom-error";
+import { CustomError } from "@/shared/error/custom.error";
 import { ErrorMessages } from "@/shared/error/error.messages";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
