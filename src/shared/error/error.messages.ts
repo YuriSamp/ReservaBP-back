@@ -1,9 +1,12 @@
 export const ErrorMessages = {
   NOT_FOUND: "USER_NOT_FOUND",
-  ALREADY_EXISTS : 'ALREADY_EXISTS',
-  CANNOT_CREATE: (entity: string) => `${entity} cannot be created`,
-  CANNOT_UPDATE: (entity: string) => `${entity} cannot be updated`,
-  CANNOT_DELETE: (entity: string) => `${entity} cannot be deleted`,
+  CONSULTOR_NOT_FOUND: "CONSULTOR_NOT_FOUND",
+  CLIENT_NOT_FOUND: "CLIENT_NOT_FOUND",
+  TIME_NOT_AVAILABLE: "TIME_NOT_AVAILABLE",
+  ALREADY_EXISTS: "ALREADY_EXISTS",
   UNAUTHORIZED: "UNAUTHORIZED",
   INVALID_CREDENTIALS: "Invalid credentials",
+  TIME_LESS_THAN_ZERO: "TIME_LESS_THAN_ZERO",
+  TIME_LESS_THAN_30_MINUTES: "TIME_LESS_THAN_30_MINUTES",
+  TIME_GREATER_THAN_2_HOURS: "TIME_GREATER_THAN_2_HOURS",
 };

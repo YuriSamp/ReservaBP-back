@@ -1,16 +1,18 @@
 import { schedulingModel } from "@/modules/scheduling/model/scheduling.model";
+import { getByEmail } from "@/modules/users/repositories";
+import { ErrorMessages } from "@/shared/error/error.messages";
 
-import { shchedulingRequestDto } from "../dtos/scheduling.dto";
+import { schedulingRequestDto } from "../dtos/scheduling.dto";
 
 export const createScheduleAppointment = async (
-  scheduling: shchedulingRequestDto
+  scheduling: schedulingRequestDto
 ) => {
   const newScheduling = await schedulingModel.create(scheduling);
   return newScheduling;
 };
 
 export const getscheduleAppointmentByDate = async (
-  scheduling: shchedulingRequestDto
+  scheduling: schedulingRequestDto
 ) => {
   const existingMeeting = await schedulingModel.findOne({
     $or: [

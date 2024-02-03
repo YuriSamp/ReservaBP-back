@@ -1,4 +1,4 @@
-import { getUserById } from "@/modules/users/services/user.service";
+import { getUserByEmail } from "@/modules/users/services/user.service";
 import { ErrorMessages } from "@/shared/error/error.messages";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -11,7 +11,7 @@ export type payload = {
 const EXPIRE_DATE = "1d";
 
 export const login = async (payload: payload) => {
-  const user = await getUserById(payload.email);
+  const user = await getUserByEmail(payload.email);
 
   const isValidPassword = await comparePasswords(
     payload.password,

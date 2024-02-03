@@ -1,4 +1,4 @@
-import { errorHandler } from "@/shared/error/error.handle";
+import { RESPONSE_STATUS_CODES } from "@/shared/error/response.status";
 import jwt from "jsonwebtoken";
 import { Context, Next } from "koa";
 
@@ -31,7 +31,7 @@ export const authenticationMiddleware = async (
 
 //Koa doesn't call next if we throw an error, so we need to return the staus code here
 const throwUnauthorizedError = (context: any) => {
-  const { message, status } = errorHandler.UNAUTHORIZED;
+  const { message, status } = RESPONSE_STATUS_CODES.UNAUTHORIZED;
   context.status = status;
   context.message = message;
 };

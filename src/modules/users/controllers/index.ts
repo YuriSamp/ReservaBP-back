@@ -7,12 +7,12 @@ import { User } from "@/modules/users/model/user.type";
 import {
   createUser,
   deleteUser,
-  getUserById,
+  getUserByEmail,
   getUsers,
   updateUser,
 } from "@/modules/users/services/user.service";
-import { handleUserErrors } from "@/modules/users/utils/user.error.handler";
 import { authenticationMiddleware } from "@/shared/auth.middleware";
+import { handleErrors } from "@/shared/error/error.handle";
 import Router from "koa-router";
 
 const userRoutes = new Router();
@@ -26,7 +26,7 @@ userRoutes.post("/signin", async (context) => {
     context.status = 200;
     context.body = token;
   } catch (err) {
-    const { message, status } = handleUserErrors(err);
+    const { message, status } = handleErrors(err);
     context.status = status;
     context.message = message;
   }
@@ -42,7 +42,7 @@ userRoutes.post("/signup", async (context) => {
     context.status = 201;
     context.body = token;
   } catch (err) {
-    const { message, status } = handleUserErrors(err);
+    const { message, status } = handleErrors(err);
     context.status = status;
     context.message = message;
   }
@@ -57,7 +57,7 @@ userRoutes.get("/users", authenticationMiddleware, async (context) => {
     context.body = users;
   } catch (err) {
     if (err instanceof Error) {
-      const { message, status } = handleUserErrors(err);
+      const { message, status } = handleErrors(err);
       context.status = status;
       context.message = message;
     }
@@ -68,20 +68,13 @@ userRoutes.get("/users", authenticationMiddleware, async (context) => {
 userRoutes.get("/user/me", authenticationMiddleware, async (context) => {
   try {
     const { email } = context.user as payload;
-    const userData = await getUserById(email);
-
-    const user = {
-      id: userData._id,
-      role: userData.role,
-      email: userData.email,
-      profilePicture: userData.profilePicture,
-      name: userData.name,
-    };
+    const userData = await getUserByEmail(email);
+    const user = getUserReponseDto(userData as User);
 
     context.body = user;
     context.status = 200;
   } catch (err) {
-    const { message, status } = handleUserErrors(err);
+    const { message, status } = handleErrors(err);
     context.status = status;
     context.message = message;
   }
@@ -96,7 +89,7 @@ userRoutes.put("/user/:id", authenticationMiddleware, async (context) => {
     context.status = 200;
     context.message = "usuário atualizado com sucesso";
   } catch (err) {
-    const { message, status } = handleUserErrors(err);
+    const { message, status } = handleErrors(err);
     context.status = status;
     context.message = message;
   }
@@ -109,7 +102,7 @@ userRoutes.delete("/user/:id", authenticationMiddleware, async (context) => {
     await deleteUser(userId as string);
     context.status = 200;
   } catch (err) {
-    const { message, status } = handleUserErrors(err);
+    const { message, status } = handleErrors(err);
     context.status = status;
     context.message = message;
   }

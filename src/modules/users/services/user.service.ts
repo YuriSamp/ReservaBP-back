@@ -24,6 +24,17 @@ export const createUser = async (user: RequestUserDTO) => {
   return newUser;
 };
 
+
+export const getUserByEmail = async (email: string) => {
+  const user = await getByEmail(email);
+
+  if (!user) {
+    throw new Error(ErrorMessages.NOT_FOUND);
+  }
+
+  return user;
+};
+
 export const getUserById = async (id: string) => {
   const user = await getById(id);
 
@@ -48,10 +59,6 @@ export const updateUser = async (id: string, user: RequestUserDTO) => {
   user.password = await hashPassword(user.password);
   const updatedUser = await update(id, user);
 
-  if (!updatedUser) {
-    throw new Error(ErrorMessages.CANNOT_UPDATE(`User with id ${id}`));
-  }
-
   return updatedUser;
 };
 
@@ -61,10 +68,6 @@ export const deleteUser = async (id: string) => {
   if (!isValidUser) throw new Error(ErrorMessages.NOT_FOUND);
 
   const deletedUser = await permanentDelete(id);
-
-  if (!deletedUser) {
-    throw new Error(ErrorMessages.CANNOT_DELETE(`User with email ${id}`));
-  }
 
   return deletedUser;
 };

@@ -1,10 +1,8 @@
 import { schedulingDto } from "@/modules/scheduling/dtos/scheduling.dto";
 import { createScheduling } from "@/modules/scheduling/services/scheduling.service";
 import { authenticationMiddleware } from "@/shared/auth.middleware";
-import { errorHandler } from "@/shared/error/error.handle";
+import { handleErrors } from "@/shared/error/error.handle";
 import Router from "koa-router";
-import { MongooseError } from "mongoose";
-import { ZodError } from "zod";
 
 const schedulingRoutes = new Router();
 
@@ -20,20 +18,10 @@ schedulingRoutes.post(
       context.body = "Agendamento criado com sucesso";
     } catch (err) {
       console.log(err);
-      if (err instanceof MongooseError) {
-        console.log(err);
-      }
-      if (err instanceof ZodError) {
-        context.status = 400;
-        context.message = err.errors.at(0)?.message as string;
-        return;
-      }
-      if (err instanceof Error) {
-        const { message, status } =
-          errorHandler[err.message as keyof typeof errorHandler];
-        context.status = status;
-        context.message = message;
-      }
+      const { message, status } = handleErrors(err);
+
+      context.status = status;
+      context.message = message;
     }
   }
 );

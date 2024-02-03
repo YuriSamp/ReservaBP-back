@@ -1,14 +1,14 @@
 import z from "zod";
 
 const schedulingSchema = z.object({
-  corretor: z.string().min(3),
-  cliente: z.string().min(3),
+  corretor: z.string().email(),
+  cliente: z.string().email(),
   date: z.string(),
   startTime: z.string(),
   endTime: z.string(),
 });
 
-export type shchedulingRequestDto = {
+export type schedulingRequestDto = {
   corretor: string;
   cliente: string;
   date: Date;
