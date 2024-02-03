@@ -28,7 +28,7 @@ export const getUserByEmail = async (email: string) => {
   const user = await getByEmail(email);
 
   if (!user) {
-    throw new Error(ErrorMessages.NOT_FOUND);
+    throw new Error(ErrorMessages.USER_NOT_FOUND);
   }
 
   return user;
@@ -38,7 +38,7 @@ export const getUserById = async (id: string) => {
   const user = await getById(id);
 
   if (!user) {
-    throw new Error(ErrorMessages.NOT_FOUND);
+    throw new Error(ErrorMessages.USER_NOT_FOUND);
   }
 
   return user;

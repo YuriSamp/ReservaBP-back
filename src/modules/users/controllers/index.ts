@@ -82,7 +82,7 @@ userRoutes.put("/user/:id", authenticationMiddleware, async (context) => {
     const userData = signUpDto(context.request.body);
     await updateUser(userId as string, userData);
     context.status = 200;
-    context.message = "usuário atualizado com sucesso";
+    context.message = "Usuário atualizado com sucesso";
   } catch (err) {
     const { message, status } = handleErrors(err);
     context.status = status;

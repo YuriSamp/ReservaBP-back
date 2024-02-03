@@ -13,10 +13,10 @@ export const handleErrors = (err: unknown) => {
     return { status, message };
   }
   if (err instanceof Error) {
+    console.log(err);
+
     const { message, status } =
-      RESPONSE_STATUS_CODES[
-        (err.message as keyof typeof RESPONSE_STATUS_CODES) || "DEFAULT"
-      ];
+      RESPONSE_STATUS_CODES[err.message as keyof typeof RESPONSE_STATUS_CODES];
     return { message, status };
   }
 

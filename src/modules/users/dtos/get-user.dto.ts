@@ -13,7 +13,7 @@ export const getUserReponseDto = (users: User[] | User) => {
   }
 
   const userData = users.map((user) => ({
-    id: JSON.stringify(user._id),
+    id: user._id,
     role: user.role,
     name: user.name,
     email: user.email,

@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.0",
+  "swagger": "2.0",
   "info": {
     "title": "Backend Reserva BP",
     "description": "CRUD de usuários e serviço de agendamento entre clientes e consultores de seguro",
@@ -8,6 +8,7 @@
   "paths": {
     "/signin": {
       "post": {
+        "tags": ["Usuário"],
         "summary": "Autenticação do usuário",
         "description": "Endpoint para autenticar um usuário e obter um token.",
         "produces": ["application/json"],
@@ -21,13 +22,13 @@
             "schema": {
               "type": "object",
               "properties": {
-                "username": {
+                "email": {
                   "type": "string",
-                  "example": "usuario123"
+                  "example": "teste@gmail.com"
                 },
                 "password": {
                   "type": "string",
-                  "example": "senha123"
+                  "example": "novasenha123"
                 }
               }
             }
@@ -53,7 +54,7 @@
               "properties": {
                 "error": {
                   "type": "string",
-                  "example": "Credenciais inválidas"
+                  "example": "Email Invalido"
                 }
               }
             }
@@ -75,6 +76,7 @@
     },
     "/signup": {
       "post": {
+        "tags": ["Usuário"],
         "summary": "Cadastro de Usuário",
         "description": "Endpoint para cadastrar um novo usuário.",
         "produces": ["application/json"],
@@ -88,13 +90,30 @@
             "schema": {
               "type": "object",
               "properties": {
-                "username": {
+                "name": {
                   "type": "string",
                   "example": "novousuario123"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "teste@gmail.com"
                 },
                 "password": {
                   "type": "string",
                   "example": "novasenha123"
+                },
+                "confirmPassword": {
+                  "type": "string",
+                  "example": "novasenha123"
+                },
+                "role": {
+                  "type": "string",
+                  "enum": ["Corretor de seguro", "Cliente"],
+                  "example": "Cliente"
+                },
+                "profilePicture": {
+                  "type": "string",
+                  "example": "https://github.com/samsantos.png"
                 }
               }
             }
@@ -120,7 +139,7 @@
               "properties": {
                 "error": {
                   "type": "string",
-                  "example": "Credenciais inválidas"
+                  "example": "Email Invalido"
                 }
               }
             }
@@ -132,7 +151,7 @@
               "properties": {
                 "error": {
                   "type": "string",
-                  "example": "Usuário já cadastrado"
+                  "example": "E-mail já cadastrado"
                 }
               }
             }
@@ -142,9 +161,20 @@
     },
     "/users": {
       "get": {
+        "tags": ["Usuário"],
         "summary": "Obter Usuários",
         "description": "Endpoint para obter a lista de usuários.",
         "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer  Token JWT de autenticação",
+            "required": true,
+            "type": "string",
+            "format": "JWT"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Lista de usuários obtida com sucesso.",
@@ -153,9 +183,26 @@
               "items": {
                 "type": "object",
                 "properties": {
-                  "username": {
+                  "id": {
                     "type": "string",
-                    "example": "usuario123"
+                    "example": "507f1f77bcf86cd799439011"
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "novousuario123"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "teste@gmail.com"
+                  },
+                  "role": {
+                    "type": "string",
+                    "enum": ["Corretor de seguro", "Cliente"],
+                    "example": "Cliente"
+                  },
+                  "profilePicture": {
+                    "type": "string",
+                    "example": "https://github.com/samsantos.png"
                   }
                 }
               }
@@ -168,7 +215,7 @@
               "properties": {
                 "error": {
                   "type": "string",
-                  "example": "Não autorizado"
+                  "example": "Sem autorização"
                 }
               }
             }
@@ -178,6 +225,7 @@
     },
     "/user/me": {
       "get": {
+        "tags": ["Usuário"],
         "summary": "Obter Dados do Usuário Atual",
         "description": "Endpoint para obter os dados do usuário autenticado.",
         "produces": ["application/json"],
@@ -187,9 +235,26 @@
             "schema": {
               "type": "object",
               "properties": {
-                "username": {
+                "id": {
                   "type": "string",
-                  "example": "usuario123"
+                  "example": "507f1f77bcf86cd799439011"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "novousuario123"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "teste@gmail.com"
+                },
+                "role": {
+                  "type": "string",
+                  "enum": ["Corretor de seguro", "Cliente"],
+                  "example": "Cliente"
+                },
+                "profilePicture": {
+                  "type": "string",
+                  "example": "https://github.com/samsantos.png"
                 }
               }
             }
@@ -201,7 +266,7 @@
               "properties": {
                 "error": {
                   "type": "string",
-                  "example": "Não autorizado"
+                  "example": "Sem autorização"
                 }
               }
             }
@@ -218,11 +283,22 @@
               }
             }
           }
-        }
+        },
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer  Token JWT de autenticação",
+            "required": true,
+            "type": "string",
+            "format": "JWT"
+          }
+        ]
       }
     },
     "/user/{id}": {
       "put": {
+        "tags": ["Usuário"],
         "summary": "Atualizar Dados do Usuário",
         "description": "Endpoint para atualizar os dados de um usuário.",
         "produces": ["application/json"],
@@ -236,6 +312,14 @@
             "type": "string"
           },
           {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer  Token JWT de autenticação",
+            "required": true,
+            "type": "string",
+            "format": "JWT"
+          },
+          {
             "in": "body",
             "name": "userData",
             "description": "Novos dados do usuário.",
@@ -243,13 +327,30 @@
             "schema": {
               "type": "object",
               "properties": {
-                "username": {
+                "name": {
                   "type": "string",
                   "example": "novousuario123"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "teste@gmail.com"
                 },
                 "password": {
                   "type": "string",
                   "example": "novasenha123"
+                },
+                "confirmPassword": {
+                  "type": "string",
+                  "example": "novasenha123"
+                },
+                "role": {
+                  "type": "string",
+                  "enum": ["Corretor de seguro", "Cliente"],
+                  "example": "Cliente"
+                },
+                "profilePicture": {
+                  "type": "string",
+                  "example": "https://github.com/samsantos.png"
                 }
               }
             }
@@ -275,7 +376,7 @@
               "properties": {
                 "error": {
                   "type": "string",
-                  "example": "Credenciais inválidas"
+                  "example": "Email Invalido"
                 }
               }
             }
@@ -287,7 +388,7 @@
               "properties": {
                 "error": {
                   "type": "string",
-                  "example": "Não autorizado"
+                  "example": "Sem autorização"
                 }
               }
             }
@@ -307,10 +408,19 @@
         }
       },
       "delete": {
+        "tags": ["Usuário"],
         "summary": "Excluir Usuário",
         "description": "Endpoint para excluir um usuário.",
         "produces": ["application/json"],
         "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer  Token JWT de autenticação",
+            "required": true,
+            "type": "string",
+            "format": "JWT"
+          },
           {
             "in": "path",
             "name": "id",
@@ -342,7 +452,7 @@
               "properties": {
                 "error": {
                   "type": "string",
-                  "example": "Não autorizado"
+                  "example": "Sem autorização"
                 }
               }
             }
@@ -364,18 +474,49 @@
     },
     "/scheduling": {
       "post": {
+        "tags": ["Agendamento"],
         "summary": "Criar Agendamento",
         "description": "Endpoint para criar um novo agendamento.",
         "produces": ["application/json"],
         "consumes": ["application/json"],
         "parameters": [
           {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer Token JWT de autenticação",
+            "required": true,
+            "type": "string",
+            "format": "JWT"
+          },
+          {
             "in": "body",
             "name": "schedule",
             "description": "Dados do agendamento.",
             "required": true,
             "schema": {
-              "type": "object"
+              "type": "object",
+              "properties": {
+                "corretor": {
+                  "type": "string",
+                  "example": "teste@gmail.com"
+                },
+                "cliente": {
+                  "type": "string",
+                  "example": "teste@gmail.com"
+                },
+                "date": {
+                  "type": "string",
+                  "example": "joao"
+                },
+                "startTime": {
+                  "type": "string",
+                  "example": "'2024-02-03T13:23:34.569Z'"
+                },
+                "endTime": {
+                  "type": "string",
+                  "example": "'2024-02-03T13:23:34.569Z'"
+                }
+              }
             }
           }
         ],
@@ -402,19 +543,19 @@
               "properties": {
                 "error": {
                   "type": "string",
-                  "example": "Não autorizado"
+                  "example": "Sem autorização"
                 }
               }
             }
           },
           "404": {
-            "description": "Recurso não encontrado.",
+            "description": "Consultor ou cliente não encontrado na database",
             "schema": {
               "type": "object",
               "properties": {
                 "error": {
                   "type": "string",
-                  "example": "Usuário não encontrado"
+                  "example": "Cliente não encontrado"
                 }
               }
             }
@@ -426,7 +567,7 @@
               "properties": {
                 "error": {
                   "type": "string",
-                  "example": "Agendamento já existente"
+                  "example": "Consultor não disponivel nesse horario"
                 }
               }
             }
@@ -434,5 +575,15 @@
         }
       }
     }
-  }
+  },
+  "tags": [
+    {
+      "name": "Usuário",
+      "description": "Operações relacionadas a usuários"
+    },
+    {
+      "name": "Agendamento",
+      "description": "Operações relacionadas a agendamentos"
+    }
+  ]
 }

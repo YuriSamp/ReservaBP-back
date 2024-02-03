@@ -21,4 +21,5 @@ export const RESPONSE_STATUS_CODES = {
     status: 400,
   },
   DEFAULT: { status: 500, message: "Erro desconhecido" },
+  INVALID_CREDENTIALS: { status: 400, message: "Credenciais invalidas" },
 };
