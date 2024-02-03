@@ -1,3 +1,4 @@
+import { swagger } from "@/config/swagger";
 import { schedulingRoutes } from "@/modules/scheduling/controllers";
 import { userRoutes } from "@/modules/users/controllers";
 import cors from "@koa/cors";
@@ -8,7 +9,7 @@ import Router from "koa-router";
 const app = new Koa();
 const router = new Router();
 
-app.use(bodyParser()).use(cors()).use(router.routes());
+app.use(bodyParser()).use(cors()).use(router.routes()).use(swagger);
 
 const nestedRoutes = [userRoutes, schedulingRoutes];
 

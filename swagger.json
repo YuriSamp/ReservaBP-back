@@ -1,0 +1,438 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Backend Reserva BP",
+    "description": "CRUD de usuários e serviço de agendamento entre clientes e consultores de seguro",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/signin": {
+      "post": {
+        "summary": "Autenticação do usuário",
+        "description": "Endpoint para autenticar um usuário e obter um token.",
+        "produces": ["application/json"],
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "credentials",
+            "description": "Credenciais do usuário para autenticação.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "example": "usuario123"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "senha123"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Autenticação bem-sucedida.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Credenciais inválidas"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Usuário não encontrado"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/signup": {
+      "post": {
+        "summary": "Cadastro de Usuário",
+        "description": "Endpoint para cadastrar um novo usuário.",
+        "produces": ["application/json"],
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "userData",
+            "description": "Dados do usuário para cadastro.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "example": "novousuario123"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "novasenha123"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Usuário cadastrado com sucesso.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Credenciais inválidas"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflito - Usuário já existe.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Usuário já cadastrado"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "summary": "Obter Usuários",
+        "description": "Endpoint para obter a lista de usuários.",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Lista de usuários obtida com sucesso.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "usuario123"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado - Token inválido ou ausente.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Não autorizado"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/me": {
+      "get": {
+        "summary": "Obter Dados do Usuário Atual",
+        "description": "Endpoint para obter os dados do usuário autenticado.",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Dados do usuário obtidos com sucesso.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "example": "usuario123"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado - Token inválido ou ausente.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Não autorizado"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Usuário não encontrado"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{id}": {
+      "put": {
+        "summary": "Atualizar Dados do Usuário",
+        "description": "Endpoint para atualizar os dados de um usuário.",
+        "produces": ["application/json"],
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "ID do usuário a ser atualizado.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "userData",
+            "description": "Novos dados do usuário.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "example": "novousuario123"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "novasenha123"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário atualizado com sucesso.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Usuário atualizado com sucesso"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Credenciais inválidas"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado - Token inválido ou ausente.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Não autorizado"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Usuário não encontrado"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Excluir Usuário",
+        "description": "Endpoint para excluir um usuário.",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "ID do usuário a ser excluído.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário excluído com sucesso."
+          },
+          "400": {
+            "description": "Requisição inválida.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Credenciais inválidas"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado - Token inválido ou ausente.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Não autorizado"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Usuário não encontrado"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scheduling": {
+      "post": {
+        "summary": "Criar Agendamento",
+        "description": "Endpoint para criar um novo agendamento.",
+        "produces": ["application/json"],
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "schedule",
+            "description": "Dados do agendamento.",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Agendamento criado com sucesso."
+          },
+          "400": {
+            "description": "Requisição inválida.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Dados do agendamento inválidos"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Não autorizado - Token inválido ou ausente.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Não autorizado"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso não encontrado.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Usuário não encontrado"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflito - Agendamento já existe.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Agendamento já existente"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

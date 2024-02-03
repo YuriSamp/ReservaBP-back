@@ -17,7 +17,6 @@ import Router from "koa-router";
 
 const userRoutes = new Router();
 
-//200, 400, 404,
 userRoutes.post("/signin", async (context) => {
   try {
     const userData = signInDto(context.request.body);
@@ -32,7 +31,6 @@ userRoutes.post("/signin", async (context) => {
   }
 });
 
-//201. 400, 409
 userRoutes.post("/signup", async (context) => {
   try {
     const userData = signUpDto(context.request.body);
@@ -48,7 +46,6 @@ userRoutes.post("/signup", async (context) => {
   }
 });
 
-//200, 401
 userRoutes.get("/users", authenticationMiddleware, async (context) => {
   try {
     const usersData = await getUsers();
@@ -64,7 +61,6 @@ userRoutes.get("/users", authenticationMiddleware, async (context) => {
   }
 });
 
-// 200, 401 ou 404
 userRoutes.get("/user/me", authenticationMiddleware, async (context) => {
   try {
     const { email } = context.user as payload;
