@@ -3,7 +3,7 @@ import { ZodError } from "zod";
 
 import { CustomError } from "./custom-error";
 
-export const handleErrors = (err: unknown) => {
+export const errorsHandler = (err: unknown) => {
   if (err instanceof SyntaxError) {
     const status = 400;
     const message = "Json Invalido";
@@ -15,8 +15,6 @@ export const handleErrors = (err: unknown) => {
     return { status, message };
   }
   if (err instanceof CustomError) {
-    console.log(err);
-
     const { message, status } =
       RESPONSE_STATUS_CODES[err.message as keyof typeof RESPONSE_STATUS_CODES];
     return { message, status };

@@ -1,6 +1,8 @@
-import { RESPONSE_STATUS_CODES } from "@/shared/error/response.status";
 import jwt from "jsonwebtoken";
 import { Context, Next } from "koa";
+
+import { CustomError } from "../error/custom-error";
+import { ErrorMessages } from "../error/error.messages";
 
 export const authenticationMiddleware = async (
   context: Context,
@@ -8,8 +10,15 @@ export const authenticationMiddleware = async (
 ) => {
   const authHeader = context.req.headers.authorization;
 
+  const publicRoutes = ["/signup", "/signin"];
+
+  if (publicRoutes.includes(context.req.url as string)) {
+    await next();
+    return;
+  }
+
   if (!authHeader) {
-    throwUnauthorizedError(context);
+    throw new CustomError(ErrorMessages.UNAUTHORIZED);
   }
 
   if (authHeader) {
@@ -25,17 +34,10 @@ export const authenticationMiddleware = async (
         await next();
         return;
       } catch (err) {
-        throwUnauthorizedError(context);
+        throw new CustomError(ErrorMessages.UNAUTHORIZED);
       }
     }
-    throwUnauthorizedError(context);
+    throw new CustomError(ErrorMessages.UNAUTHORIZED);
   }
-  throwUnauthorizedError(context);
-};
-
-//Koa doesn't call next if we throw an error, so we need to return the staus code here
-const throwUnauthorizedError = (context: any) => {
-  const { message, status } = RESPONSE_STATUS_CODES.UNAUTHORIZED;
-  context.status = status;
-  context.message = message;
+  throw new CustomError(ErrorMessages.UNAUTHORIZED);
 };
