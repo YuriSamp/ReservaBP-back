@@ -1,4 +1,5 @@
 import { getUserByEmail } from "@/modules/users/services/user.service";
+import { CustomError } from "@/shared/error/custom-error";
 import { ErrorMessages } from "@/shared/error/error.messages";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -19,7 +20,7 @@ export const login = async (payload: payload) => {
   );
 
   if (!isValidPassword) {
-    throw new Error(ErrorMessages.INVALID_CREDENTIALS);
+    throw new CustomError(ErrorMessages.INVALID_CREDENTIALS);
   }
 
   const token = jwt.sign(payload, process.env.JWT_SECRET as string, {

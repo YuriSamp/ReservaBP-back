@@ -7,6 +7,7 @@ import { ErrorMessages } from "@/shared/error/error.messages";
 import { differenceInMinutes } from "date-fns";
 
 import { schedulingRequestDto } from "../dtos/scheduling.dto";
+import { CustomError } from '@/shared/error/custom-error';
 
 export const createScheduling = async (scheduling: schedulingRequestDto) => {
   await checkCredetials(scheduling);
@@ -21,19 +22,19 @@ const checkAvailability = async (scheduling: schedulingRequestDto) => {
   const hasScheduling = await getscheduleAppointmentByDate(scheduling);
 
   if (hasScheduling) {
-    throw new Error(ErrorMessages.TIME_NOT_AVAILABLE);
+    throw new CustomError(ErrorMessages.TIME_NOT_AVAILABLE);
   }
 };
 
 const checkTime = (startTime: Date, endTime: Date) => {
   const difference = differenceInMinutes(endTime, startTime);
 
-  if (difference < 0) throw new Error(ErrorMessages.TIME_LESS_THAN_ZERO);
+  if (difference < 0) throw new CustomError(ErrorMessages.TIME_LESS_THAN_ZERO);
 
-  if (difference < 30) throw new Error(ErrorMessages.TIME_LESS_THAN_30_MINUTES);
+  if (difference < 30) throw new CustomError(ErrorMessages.TIME_LESS_THAN_30_MINUTES);
 
   if (difference > 120) {
-    throw new Error(ErrorMessages.TIME_GREATER_THAN_2_HOURS);
+    throw new CustomError(ErrorMessages.TIME_GREATER_THAN_2_HOURS);
   }
 };
 
@@ -41,12 +42,12 @@ const checkCredetials = async (scheduling: schedulingRequestDto) => {
   const client = await getByEmail(scheduling.cliente);
 
   if (!client || client?.role !== "Cliente") {
-    throw new Error(ErrorMessages.CLIENT_NOT_FOUND);
+    throw new CustomError(ErrorMessages.CLIENT_NOT_FOUND);
   }
 
   const consultor = await getByEmail(scheduling.corretor);
 
   if (!consultor || consultor?.role !== "Corretor de seguro") {
-    throw new Error(ErrorMessages.CONSULTOR_NOT_FOUND);
+    throw new CustomError(ErrorMessages.CONSULTOR_NOT_FOUND);
   }
 };

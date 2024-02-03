@@ -7,6 +7,7 @@ import {
   permanentDelete,
   update,
 } from "@/modules/users/repositories";
+import { CustomError } from "@/shared/error/custom-error";
 import { ErrorMessages } from "@/shared/error/error.messages";
 import bcrypt from "bcrypt";
 
@@ -14,7 +15,7 @@ export const createUser = async (user: RequestUserDTO) => {
   const alreadyHasUser = await getByEmail(user.email);
 
   if (alreadyHasUser) {
-    throw new Error(ErrorMessages.ALREADY_EXISTS);
+    throw new CustomError(ErrorMessages.ALREADY_EXISTS);
   }
 
   user.password = await hashPassword(user.password);
@@ -28,7 +29,7 @@ export const getUserByEmail = async (email: string) => {
   const user = await getByEmail(email);
 
   if (!user) {
-    throw new Error(ErrorMessages.USER_NOT_FOUND);
+    throw new CustomError(ErrorMessages.USER_NOT_FOUND);
   }
 
   return user;
@@ -38,7 +39,7 @@ export const getUserById = async (id: string) => {
   const user = await getById(id);
 
   if (!user) {
-    throw new Error(ErrorMessages.USER_NOT_FOUND);
+    throw new CustomError(ErrorMessages.USER_NOT_FOUND);
   }
 
   return user;

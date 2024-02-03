@@ -1,6 +1,8 @@
 import { RESPONSE_STATUS_CODES } from "@/shared/error/response.status";
 import { ZodError } from "zod";
 
+import { CustomError } from "./custom-error";
+
 export const handleErrors = (err: unknown) => {
   if (err instanceof SyntaxError) {
     const status = 400;
@@ -12,7 +14,7 @@ export const handleErrors = (err: unknown) => {
     const message = err.errors.at(0)?.message as string;
     return { status, message };
   }
-  if (err instanceof Error) {
+  if (err instanceof CustomError) {
     console.log(err);
 
     const { message, status } =
