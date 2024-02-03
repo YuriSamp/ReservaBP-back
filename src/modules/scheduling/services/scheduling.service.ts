@@ -3,11 +3,11 @@ import {
   getscheduleAppointmentByDate,
 } from "@/modules/scheduling/repositories/scheduling.repository";
 import { getByEmail } from "@/modules/users/repositories";
+import { CustomError } from "@/shared/error/custom-error";
 import { ErrorMessages } from "@/shared/error/error.messages";
 import { differenceInMinutes } from "date-fns";
 
 import { schedulingRequestDto } from "../dtos/scheduling.dto";
-import { CustomError } from '@/shared/error/custom-error';
 
 export const createScheduling = async (scheduling: schedulingRequestDto) => {
   await checkCredetials(scheduling);
@@ -15,6 +15,7 @@ export const createScheduling = async (scheduling: schedulingRequestDto) => {
   checkTime(scheduling.startTime, scheduling.endTime);
 
   const createdScheduling = await createScheduleAppointment(scheduling);
+
   return createdScheduling;
 };
 
@@ -31,7 +32,8 @@ const checkTime = (startTime: Date, endTime: Date) => {
 
   if (difference < 0) throw new CustomError(ErrorMessages.TIME_LESS_THAN_ZERO);
 
-  if (difference < 30) throw new CustomError(ErrorMessages.TIME_LESS_THAN_30_MINUTES);
+  if (difference < 30)
+    throw new CustomError(ErrorMessages.TIME_LESS_THAN_30_MINUTES);
 
   if (difference > 120) {
     throw new CustomError(ErrorMessages.TIME_GREATER_THAN_2_HOURS);

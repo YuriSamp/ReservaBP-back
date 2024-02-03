@@ -14,30 +14,23 @@ export const authenticationMiddleware = async (
 
   if (publicRoutes.includes(context.req.url as string)) {
     await next();
-    return;
   }
 
   if (!authHeader) {
     throw new CustomError(ErrorMessages.UNAUTHORIZED);
   }
 
-  if (authHeader) {
-    const token = authHeader.split("Bearer ")[1];
-    if (token) {
-      try {
-        const payload = jwt.verify(
-          token,
-          process.env.JWT_SECRET as string
-        ) as jwt.JwtPayload;
+  const token = authHeader.split("Bearer ")[1];
 
-        context.user = payload;
-        await next();
-        return;
-      } catch (err) {
-        throw new CustomError(ErrorMessages.UNAUTHORIZED);
-      }
-    }
+  if (!token) {
     throw new CustomError(ErrorMessages.UNAUTHORIZED);
   }
-  throw new CustomError(ErrorMessages.UNAUTHORIZED);
+
+  const payload = jwt.verify(
+    token,
+    process.env.JWT_SECRET as string
+  ) as jwt.JwtPayload;
+
+  context.user = payload;
+  await next();
 };

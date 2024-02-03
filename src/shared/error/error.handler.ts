@@ -1,4 +1,5 @@
 import { RESPONSE_STATUS_CODES } from "@/shared/error/response.status";
+import { JsonWebTokenError } from "jsonwebtoken";
 import { ZodError } from "zod";
 
 import { CustomError } from "./custom-error";
@@ -7,6 +8,10 @@ export const errorsHandler = (err: unknown) => {
   if (err instanceof SyntaxError) {
     const status = 400;
     const message = "Json Invalido";
+    return { status, message };
+  }
+  if (err instanceof JsonWebTokenError) {
+    const { message, status } = RESPONSE_STATUS_CODES.UNAUTHORIZED;
     return { status, message };
   }
   if (err instanceof ZodError) {
