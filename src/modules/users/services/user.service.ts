@@ -1,4 +1,4 @@
-import { RequestUserDTO } from "@/modules/users/dtos/signup.dto";
+import { RequestUserDTO } from "@/modules/users/dtos/sign-up.dto";
 import {
   create,
   getAllUsers,
@@ -23,7 +23,6 @@ export const createUser = async (user: RequestUserDTO) => {
 
   return newUser;
 };
-
 
 export const getUserByEmail = async (email: string) => {
   const user = await getByEmail(email);
@@ -52,9 +51,7 @@ export const getUsers = async () => {
 };
 
 export const updateUser = async (id: string, user: RequestUserDTO) => {
-  const isValidUser = await getUserById(id);
-
-  if (!isValidUser) throw new Error(ErrorMessages.NOT_FOUND);
+  await getUserById(id);
 
   user.password = await hashPassword(user.password);
   const updatedUser = await update(id, user);
@@ -63,13 +60,8 @@ export const updateUser = async (id: string, user: RequestUserDTO) => {
 };
 
 export const deleteUser = async (id: string) => {
-  const isValidUser = await getUserById(id);
-
-  if (!isValidUser) throw new Error(ErrorMessages.NOT_FOUND);
-
-  const deletedUser = await permanentDelete(id);
-
-  return deletedUser;
+  await getUserById(id);
+  await permanentDelete(id);
 };
 
 const hashPassword = async (password: string) => {

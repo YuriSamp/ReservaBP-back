@@ -8,6 +8,10 @@ export const authenticationMiddleware = async (
 ) => {
   const authHeader = context.req.headers.authorization;
 
+  if (!authHeader) {
+    throwUnauthorizedError(context);
+  }
+
   if (authHeader) {
     const token = authHeader.split("Bearer ")[1];
     if (token) {

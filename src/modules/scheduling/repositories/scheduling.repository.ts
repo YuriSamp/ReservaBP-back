@@ -1,6 +1,4 @@
 import { schedulingModel } from "@/modules/scheduling/model/scheduling.model";
-import { getByEmail } from "@/modules/users/repositories";
-import { ErrorMessages } from "@/shared/error/error.messages";
 
 import { schedulingRequestDto } from "../dtos/scheduling.dto";
 
@@ -37,5 +35,5 @@ export const getscheduleAppointmentByDate = async (
     ],
   });
 
-  return existingMeeting;
+  return Boolean(existingMeeting);
 };

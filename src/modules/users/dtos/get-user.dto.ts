@@ -12,8 +12,6 @@ export const getUserReponseDto = (users: User[] | User) => {
     return user;
   }
 
-  if (!users.length) return users;
-
   const userData = users.map((user) => ({
     id: JSON.stringify(user._id),
     role: user.role,

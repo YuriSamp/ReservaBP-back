@@ -1,4 +1,4 @@
-import { RequestUserDTO } from "../dtos/signup.dto";
+import { RequestUserDTO } from "../dtos/sign-up.dto";
 import { fakeUser } from "./fake.user";
 
 export const fakeRepositoryGetAllUsers = async () => {

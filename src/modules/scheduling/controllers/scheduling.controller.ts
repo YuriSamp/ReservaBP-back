@@ -17,7 +17,6 @@ schedulingRoutes.post(
       context.status = 200;
       context.body = "Agendamento criado com sucesso";
     } catch (err) {
-      console.log(err);
       const { message, status } = handleErrors(err);
 
       context.status = status;

@@ -1,5 +1,5 @@
-import { RequestUserDTO } from "@/modules/users/dtos/signup.dto";
-import { userModel } from "@/modules/users/model/user.mongosse.model";
+import { RequestUserDTO } from "@/modules/users/dtos/sign-up.dto";
+import { userModel } from "@/modules/users/model/user.mongoose.model";
 
 export const getById = async (id: string) => {
   const user = await userModel.findOne({ _id: id });

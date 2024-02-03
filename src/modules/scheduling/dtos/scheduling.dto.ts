@@ -1,8 +1,8 @@
 import z from "zod";
 
 const schedulingSchema = z.object({
-  corretor: z.string().email(),
-  cliente: z.string().email(),
+  corretor: z.string().email("Email Invalido"),
+  cliente: z.string().email("Email Invalido"),
   date: z.string(),
   startTime: z.string(),
   endTime: z.string(),
@@ -17,14 +17,9 @@ export type schedulingRequestDto = {
 };
 
 export const schedulingDto = (schedulingData: unknown) => {
-  const validaterScheduling = schedulingSchema.safeParse(schedulingData);
+  const validaterScheduling = schedulingSchema.parse(schedulingData);
 
-  if (!validaterScheduling.success) {
-    throw new Error(`Invalid scheduling data: ${validaterScheduling.error} `);
-  }
-
-  const { cliente, corretor, date, endTime, startTime } =
-    validaterScheduling.data;
+  const { cliente, corretor, date, endTime, startTime } = validaterScheduling;
 
   const data = {
     cliente,

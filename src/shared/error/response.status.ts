@@ -20,4 +20,5 @@ export const RESPONSE_STATUS_CODES = {
     message: "insira um tempo menor que 2 horas",
     status: 400,
   },
+  DEFAULT: { status: 500, message: "Erro desconhecido" },
 };

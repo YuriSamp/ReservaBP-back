@@ -1,7 +1,7 @@
 import {
   createScheduleAppointment,
   getscheduleAppointmentByDate,
-} from "@/modules/scheduling/repositories";
+} from "@/modules/scheduling/repositories/scheduling.repository";
 import { getByEmail } from "@/modules/users/repositories";
 import { ErrorMessages } from "@/shared/error/error.messages";
 import { differenceInMinutes } from "date-fns";
@@ -13,14 +13,14 @@ export const createScheduling = async (scheduling: schedulingRequestDto) => {
   await checkAvailability(scheduling);
   checkTime(scheduling.startTime, scheduling.endTime);
 
-  const _scheduling = await createScheduleAppointment(scheduling);
-  return _scheduling;
+  const createdScheduling = await createScheduleAppointment(scheduling);
+  return createdScheduling;
 };
 
 const checkAvailability = async (scheduling: schedulingRequestDto) => {
-  const _scheduling = await getscheduleAppointmentByDate(scheduling);
+  const hasScheduling = await getscheduleAppointmentByDate(scheduling);
 
-  if (_scheduling) {
+  if (hasScheduling) {
     throw new Error(ErrorMessages.TIME_NOT_AVAILABLE);
   }
 };

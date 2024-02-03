@@ -1,8 +1,8 @@
 import { login, payload, signUp } from "@/modules/auth/services/auth.service";
-import { getCredentials } from "@/modules/users/dtos/getcredentials.dto";
-import { getUserReponseDto } from "@/modules/users/dtos/getuser.dto";
-import { signInDto } from "@/modules/users/dtos/signin.dto";
-import { signUpDto } from "@/modules/users/dtos/signup.dto";
+import { getCredentials } from "@/modules/users/dtos/get-credentials.dto";
+import { getUserReponseDto } from "@/modules/users/dtos/get-user.dto";
+import { signInDto } from "@/modules/users/dtos/sign-in.dto";
+import { signUpDto } from "@/modules/users/dtos/sign-up.dto";
 import { User } from "@/modules/users/model/user.type";
 import {
   createUser,
@@ -76,7 +76,6 @@ userRoutes.get("/user/me", authenticationMiddleware, async (context) => {
   }
 });
 
-// 200, 400, 401, 404
 userRoutes.put("/user/:id", authenticationMiddleware, async (context) => {
   try {
     const userId = context.params.id;
@@ -91,7 +90,6 @@ userRoutes.put("/user/:id", authenticationMiddleware, async (context) => {
   }
 });
 
-// 200, 400, 401, 404
 userRoutes.delete("/user/:id", authenticationMiddleware, async (context) => {
   try {
     const userId = context.params.id;

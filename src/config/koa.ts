@@ -1,5 +1,5 @@
 import { swagger } from "@/config/swagger";
-import { schedulingRoutes } from "@/modules/scheduling/controllers";
+import { schedulingRoutes } from "@/modules/scheduling/controllers/scheduling.controller";
 import { userRoutes } from "@/modules/users/controllers";
 import cors from "@koa/cors";
 import Koa from "koa";
