@@ -2,7 +2,7 @@ version: "3"
 services:
   server:
     container_name: reservabp-backend
-    image: yurisamp/reservabp-backend:0.0.5
+    image: yurisamp/reservabp-backend:1.0.0
     ports:
       - "8000:8000"
     depends_on:
@@ -12,7 +12,7 @@ services:
 
   client:
     container_name: reservabp-frontend
-    image: yurisamp/reservabp-frontend:0.0.3
+    image: yurisamp/reservabp-frontend:1.0.0
     ports:
       - "3000:3000"
     networks:
