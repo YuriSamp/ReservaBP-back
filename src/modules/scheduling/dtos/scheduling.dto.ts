@@ -1,11 +1,25 @@
 import z from "zod";
 
 const schedulingSchema = z.object({
-  corretor: z.string().email("Email Invalido"),
-  cliente: z.string().email("Email Invalido"),
-  date: z.string(),
-  startTime: z.string(),
-  endTime: z.string(),
+  corretor: z
+    .string({
+      required_error: "Corretor não informado",
+    })
+    .email("Email Invalido"),
+  cliente: z
+    .string({
+      required_error: "Campo cliente é obrigatorio",
+    })
+    .email("Email Invalido"),
+  date: z.string({
+    required_error: "Campo date é obrigatorio",
+  }),
+  startTime: z.string({
+    required_error: "Campo Hora inicio é obrigatorio",
+  }),
+  endTime: z.string({
+    required_error: "Campo Hora fim é obrigatorio",
+  }),
 });
 
 export type schedulingRequestDto = {

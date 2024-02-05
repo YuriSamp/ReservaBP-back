@@ -8,7 +8,7 @@ const signUpSchema = z
           case "invalid_type":
             return { message: "Tipo invalido para cargo" };
           case "invalid_enum_value":
-            return { message: "Enum invalido para carog." };
+            return { message: "Enum invalido para cargo" };
           default:
             return { message: "Enum invalido para cargo" };
         }
