@@ -14,6 +14,7 @@ export const authenticationMiddleware = async (
 
   if (publicRoutes.includes(context.req.url as string)) {
     await next();
+    return;
   }
 
   if (!authHeader) {
