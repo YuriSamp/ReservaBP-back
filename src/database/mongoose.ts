@@ -1,4 +1,4 @@
-import { connect, connection, connections } from "mongoose";
+import { connect, connection, connections, } from "mongoose";
 
 export function mongooseConnect(connectionString: string) {
   connection

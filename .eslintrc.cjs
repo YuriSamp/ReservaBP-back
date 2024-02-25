@@ -35,6 +35,7 @@
         "@typescript-eslint/restrict-template-expressions": "off",
     
         "@typescript-eslint/prefer-nullish-coalescing": "off",
+        "@typescript-eslint/consistent-type-definitions" : "off",
       },
     };
     

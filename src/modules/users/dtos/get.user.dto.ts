@@ -1,4 +1,4 @@
-import { User } from "../model/user.type";
+import { type User } from "../model/user.type";
 
 export const getUserReponseDto = (users: User[] | User) => {
   if (!Array.isArray(users)) {
